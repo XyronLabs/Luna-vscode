@@ -1,0 +1,64 @@
+{
+    "name": "luna-vscode",
+    "displayName": "Luna",
+    "description": "Luna support for VS Code",
+    "version": "0.0.1",
+    "publisher": "ACharLuk",
+    "engines": {
+        "vscode": "^1.15.0"
+    },
+    "categories": [
+        "Snippets",
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:luna.run.current",
+        "onCommand:luna.run.main"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "luna.run.current",
+                "title": "Run current file",
+                "category": "Luna",
+                "icon":{
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
+            },
+            {
+                "command": "luna.run.main",
+                "title": "Run main.luna",
+                "category": "Luna",
+                "icon":{
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
+            }
+        ],
+        "keybindings":[
+            {
+                "command": "luna.run.current",
+                "key": "F12"
+            },
+            {
+                "command": "luna.run.main",
+                "key": "Shift+F12"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0",
+        "mocha": "^2.3.3",
+        "@types/node": "^6.0.40",
+        "@types/mocha": "^2.2.32"
+    }
+}
