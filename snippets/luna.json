@@ -1,0 +1,92 @@
+{
+    "LUNA_TEMPLATE": {
+		"prefix": "luna",
+		"body": [
+			"function setup()",
+				"\tsize(${1:width}, ${2:height}, \"${3:App name}\")",
+			"end",
+			"",
+			"function render()",
+				"\tclear()",
+				"\n\t$0",
+			"end"
+		],
+		"description": "Luna template for a new sketch"
+	},
+
+	"F_RECT": {
+		"prefix": "rect",
+		"body": [
+			"rect(${1:x}, ${2:y}, ${3:width}, ${4:height})$0"
+		]
+	},
+	"F_ELLIPSE": {
+		"prefix": "ellipse",
+		"body": [
+			"ellipse(${1:x}, ${2:y}, ${3:x_radius}, ${4:y_radius})$0"
+		]
+	},
+	"F_LINE": {
+		"prefix": "line",
+		"body": [
+			"line(${1:start_x}, ${2:start_y}, ${3:end_x}, ${4:end_y})$0"
+		]
+	},
+	"F_TEXT": {
+		"prefix": "text",
+		"body": [
+			"text(\"${1:text}\", ${2:size}, ${3:x}, ${4:y})$0"
+		]
+	},
+	"F_COLOR": {
+		"prefix": "color",
+		"body": [
+			"color(colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent|})$0"
+		]
+	},
+	
+	"NEW_RECTANGLE": {
+		"prefix": "newrectangle",
+		"body":[
+			"rectangleShape:new{ x = ${1:nil}, y = ${2:nil}, width = ${3:nil}, height = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent|}, texture = ${6:nil} }$0"
+		],
+		"description": "Create a new rectangle object"
+	},
+	"NEW_ELLIPSE": {
+		"prefix": "newellipse",
+		"body":[
+			"ellipseShape:new{ x = ${1:nil}, y = ${2:nil}, xradius = ${3:nil}, yradius = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent|}, texture = ${6:nil} }$0"
+		],
+		"description": "Create a new ellipse object"
+	},
+	"NEW_TEXTBOX": {
+		"prefix": "newtextbox",
+		"body":[
+			"textbox:new{ x = ${1:nil}, y = ${2:nil}, text = \"$3\", size = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent|} }$0"
+		],
+		"description": "Create a new textbox object"
+	},
+	"NEW_SOUND": {
+		"prefix": "newsound",
+		"body":[
+			"sound:new{ path = \"$1\", volume = ${2:100}, loop = ${3|false,true|} }$0"
+		],
+		"description": "Create a new sound object"
+	},
+
+	"COLOR_TABLE": {
+		"prefix": "colors",
+		"body": [
+			"colors.${1|white,black,red,green,blue,yellow,magenta,cyan,transparent|}$0"
+		],
+		"description": "Select a color from Luna default colors"
+	},
+	"LOG_LEVEL_TABLE": {
+		"prefix": "loglevel",
+		"body": [
+			"loglevel.${1|FATAL,ERROR,WARNING,INFO,DEBUG|}$0"
+		],
+		"description": "Select a log level"
+	}
+	
+}
