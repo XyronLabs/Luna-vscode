@@ -1,10 +1,16 @@
-# 1.0.1
+# Changelog
+
+## 1.0.2
+
+- Added hex option in color snippet
+
+## 1.0.1
 
 - Updated readme
 
-# 1.0.0
+## 1.0.0
 
-## First release
+### First release
 
 - Added snippets
 - Added commands

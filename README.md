@@ -12,13 +12,6 @@
 
 ## Release Notes
 
-### 1.0.1
+### 1.0.2
 
-- Updated readme
-
-### 1.0.0
-
-- First release
-  - Added snippets
-  - Added commands
-  - Added keybindings
+- Added hex option in color snippet

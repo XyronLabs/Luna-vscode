@@ -18,51 +18,56 @@
 		"prefix": "rect",
 		"body": [
 			"rect(${1:x}, ${2:y}, ${3:width}, ${4:height})$0"
-		]
+		],
+		"description": "Create a new rectangle"
 	},
 	"F_ELLIPSE": {
 		"prefix": "ellipse",
 		"body": [
 			"ellipse(${1:x}, ${2:y}, ${3:x_radius}, ${4:y_radius})$0"
-		]
+		],
+		"description": "Create a new ellipse"
 	},
 	"F_LINE": {
 		"prefix": "line",
 		"body": [
 			"line(${1:start_x}, ${2:start_y}, ${3:end_x}, ${4:end_y})$0"
-		]
+		],
+		"description": "Create a new line"
 	},
 	"F_TEXT": {
 		"prefix": "text",
 		"body": [
 			"text(\"${1:text}\", ${2:size}, ${3:x}, ${4:y})$0"
-		]
+		],
+		"description": "Create a new textbox"
 	},
 	"F_COLOR": {
 		"prefix": "color",
 		"body": [
-			"color(colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent|})$0"
-		]
+			"color(colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent,0x|})$0"
+		],
+		"description": "Set current drawing color"
 	},
 	
 	"NEW_RECTANGLE": {
 		"prefix": "newrectangle",
 		"body":[
-			"rectangleShape:new{ x = ${1:nil}, y = ${2:nil}, width = ${3:nil}, height = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent|}, texture = ${6:nil} }$0"
+			"rectangleShape:new{ x = ${1:nil}, y = ${2:nil}, width = ${3:nil}, height = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent,0x|}, texture = ${6:nil} }$0"
 		],
 		"description": "Create a new rectangle object"
 	},
 	"NEW_ELLIPSE": {
 		"prefix": "newellipse",
 		"body":[
-			"ellipseShape:new{ x = ${1:nil}, y = ${2:nil}, xradius = ${3:nil}, yradius = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent|}, texture = ${6:nil} }$0"
+			"ellipseShape:new{ x = ${1:nil}, y = ${2:nil}, xradius = ${3:nil}, yradius = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent,0x|}, texture = ${6:nil} }$0"
 		],
 		"description": "Create a new ellipse object"
 	},
 	"NEW_TEXTBOX": {
 		"prefix": "newtextbox",
 		"body":[
-			"textbox:new{ x = ${1:nil}, y = ${2:nil}, text = \"$3\", size = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent|} }$0"
+			"textbox:new{ x = ${1:nil}, y = ${2:nil}, text = \"$3\", size = ${4:nil}, color = colors.${5|white,black,red,green,blue,yellow,magenta,cyan,transparent,0x|} }$0"
 		],
 		"description": "Create a new textbox object"
 	},
