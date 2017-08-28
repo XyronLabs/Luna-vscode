@@ -1,7 +1,11 @@
-# Change Log
-All notable changes to the "luna-vscode" extension will be documented in this file.
+# 1.0.1
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+- Updated readme
 
-## [Unreleased]
-- Initial release
+# 1.0.0
+
+## First release
+
+- Added snippets
+- Added commands
+- Added keybindings
