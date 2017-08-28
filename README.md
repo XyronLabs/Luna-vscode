@@ -14,7 +14,7 @@
 
 ### 1.0.1
 
-- Updated readmeb
+- Updated readme
 
 ### 1.0.0
 
