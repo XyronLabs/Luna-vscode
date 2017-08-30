@@ -12,6 +12,6 @@
 
 ## Release Notes
 
-### 1.0.2
+### 1.1.0
 
-- Added hex option in color snippet
+- Added Linux support

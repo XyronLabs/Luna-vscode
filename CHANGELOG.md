@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+- Added Linux support
+
 ## 1.0.2
 
 - Added hex option in color snippet
