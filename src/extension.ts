@@ -20,8 +20,8 @@ export function activate(context: vscode.ExtensionContext) {
         argsmain = [ '/Q', '/C', 'luna', vscode.workspace.rootPath + '/main.luna', '&&', 'pause'];
     } else if (process.platform === 'linux') {
         term = 'bash';
-        args = [ '-c', 'luna', vscode.window.activeTextEditor.document.fileName, '&&', 'read'];
-        args = [ '-c', 'luna', vscode.workspace.rootPath + '/main.luna', '&&', 'read'];
+        args = [ '-c', 'luna ' + vscode.window.activeTextEditor.document.fileName + '&&' + 'read'];
+        argsmain = [ '-c', 'luna ' + vscode.workspace.rootPath + '/main.luna' + '&&' + 'read'];
     }
 
     let luna_run_current = vscode.commands.registerCommand('luna.run.current', () => {
