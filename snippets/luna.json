@@ -64,6 +64,13 @@
 		],
 		"description": "Create a new ellipse object"
 	},
+	"NEW_CUSTOM": {
+		"prefix": "newcustom",
+		"body":[
+			"customShape:new{ points = {${1:nil}}, color = colors.${2|white,black,red,green,blue,yellow,magenta,cyan,transparent,0x|}, texture = ${6:nil} }$0"
+		],
+		"description": "Create a new custom shape object"
+	},
 	"NEW_TEXTBOX": {
 		"prefix": "newtextbox",
 		"body":[
