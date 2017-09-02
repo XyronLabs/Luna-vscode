@@ -12,6 +12,6 @@
 
 ## Release Notes
 
-### 1.1.0
+### 1.1.1
 
-- Added Linux support
+- Added customShape snippet

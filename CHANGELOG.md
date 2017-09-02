@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Added customShape snippet
+
 ## 1.1.0
 
 - Added Linux support
