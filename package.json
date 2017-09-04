@@ -15,7 +15,8 @@
     ],
     "activationEvents": [
         "onCommand:luna.run.current",
-        "onCommand:luna.run.main"
+        "onCommand:luna.run.main",
+        "onCommand:luna.download"
     ],
 
     "main": "./out/src/extension",
@@ -50,6 +51,15 @@
             {
                 "command": "luna.run.main",
                 "title": "Run main.luna",
+                "category": "Luna",
+                "icon":{
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
+            },
+            {
+                "command": "luna.download",
+                "title": "Download Luna",
                 "category": "Luna",
                 "icon":{
                     "dark": "logo.png",

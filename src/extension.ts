@@ -35,18 +35,19 @@ export function activate(context: vscode.ExtensionContext) {
         x.show();
     });
 
-    request.get({url: 'https://github.com/XyronLabs/Luna/releases/download/0.7-12/luna-0.7-12_setup.exe', encoding: 'binary'}, function (err, response, body) {
-        fs.writeFile( __dirname + "/setup.exe", body, 'binary', function(err) {
-          if(err)
-            console.log(err);
-          else
-            console.log("Latest Luna setup downloaded!");
-        }); 
-      });
-    
-
     context.subscriptions.push(luna_run_current);
     context.subscriptions.push(luna_run_main);
+    context.subscriptions.push(vscode.commands.registerCommand('luna.download', () => {
+        request.get({url: 'https://github.com/XyronLabs/Luna/releases/download/0.7-12/luna-0.7-12_windows.zip', encoding: 'binary'}, function (err, response, body) {
+            fs.writeFile( __dirname + "/setup.exe", body, 'binary', function(err) {
+              if(err)
+                console.log(err);
+              else
+                console.log("Latest Luna setup downloaded!");
+            }); 
+        });
+        // TODO: Unzip files
+    }));
 }
 
 // this method is called when your extension is deactivated
