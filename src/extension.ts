@@ -4,6 +4,9 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as request from 'request';
+import * as zlib from 'zlib';
+import * as extract_zip from 'extract-zip';
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -35,19 +38,16 @@ export function activate(context: vscode.ExtensionContext) {
         x.show();
     });
 
+    let luna_download = vscode.commands.registerCommand('luna.download', () => {
+        request.get({url: 'https://github.com/XyronLabs/Luna/releases/download/0.7-12/luna-0.7-12_windows.zip', encoding: null}, (err, response, body) => {
+            fs.writeFileSync(__dirname + "/luna.zip", body, 'binary');
+            extract_zip(__dirname + "/luna.zip", {dir: __dirname+'/luna-binaries'}, (err) => { if (err) console.log(err) });
+        });
+    });
+
     context.subscriptions.push(luna_run_current);
     context.subscriptions.push(luna_run_main);
-    context.subscriptions.push(vscode.commands.registerCommand('luna.download', () => {
-        request.get({url: 'https://github.com/XyronLabs/Luna/releases/download/0.7-12/luna-0.7-12_windows.zip', encoding: 'binary'}, function (err, response, body) {
-            fs.writeFile( __dirname + "/setup.exe", body, 'binary', function(err) {
-              if(err)
-                console.log(err);
-              else
-                console.log("Latest Luna setup downloaded!");
-            }); 
-        });
-        // TODO: Unzip files
-    }));
+    context.subscriptions.push(luna_download);
 }
 
 // this method is called when your extension is deactivated
