@@ -4,7 +4,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as request from 'request';
-import * as zlib from 'zlib';
 import * as extract_zip from 'extract-zip';
 
 
