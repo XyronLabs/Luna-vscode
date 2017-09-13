@@ -14,27 +14,28 @@ export function activate(context: vscode.ExtensionContext) {
     // This line of code will only be executed once when your extension is activated
     console.log('Luna-vscode extension is now active!');
 
-    let term, args, argsmain;
-    let myExtDir = vscode.extensions.getExtension("ACharLuk.luna-vscode").extensionPath;
+    let term, args1, args2, argsmain;
 
     if (process.platform === 'win32') {
         term = 'cmd.exe';
-        args = [ '/Q', '/C', 'luna', vscode.window.activeTextEditor.document.fileName, '&&', 'pause' ];
-        argsmain = [ '/Q', '/C', 'luna', vscode.workspace.rootPath + '/main.luna', '&&', 'pause'];
+        args1 = [ '/Q', '/C', 'luna'];
+        args2 = ['&&', 'pause']
+        argsmain = [ '/Q', '/C', 'luna', vscode.workspace.workspaceFolders[0] + '/main.luna', '&&', 'pause'];
     } else if (process.platform === 'linux') {
         term = 'bash';
-        args = [ '-c', 'luna ' + vscode.window.activeTextEditor.document.fileName + '&&' + 'read'];
-        argsmain = [ '-c', 'luna ' + vscode.workspace.rootPath + '/main.luna' + '&&' + 'read'];
+        args1 = [ '-c', 'luna ']
+        args2 = ['&&' + 'read'];
+        argsmain = [ '-c', 'luna ' + vscode.workspace.workspaceFolders[0] + '/main.luna' + '&&' + 'read'];
     }
 
     let luna_run_current = vscode.commands.registerCommand('luna.run.current', () => {
         vscode.window.showInformationMessage("Launching Luna: " + vscode.window.activeTextEditor.document.fileName);
-        let x = vscode.window.createTerminal('Luna terminal', term, args);
+        let x = vscode.window.createTerminal('Luna terminal', term, [args1 , vscode.window.activeTextEditor.document.fileName, args2]);
         x.show();
     });
 
     let luna_run_main = vscode.commands.registerCommand('luna.run.main', () => {
-        vscode.window.showInformationMessage("Launching Luna: " + vscode.workspace.rootPath + '/main.luna');
+        vscode.window.showInformationMessage("Launching Luna: " + vscode.workspace.workspaceFolders[0] + '/main.luna');
         let x = vscode.window.createTerminal('Luna terminal', term, argsmain);
         x.show();
     });
@@ -44,16 +45,17 @@ export function activate(context: vscode.ExtensionContext) {
 
     if (process.platform === 'win32') {
         context.subscriptions.push(vscode.commands.registerCommand('luna.download', () => {
-            vscode.window.showInformationMessage("Installing Luna to this folder: " + vscode.workspace.rootPath);
+            vscode.window.showInformationMessage("Installing Luna to this folder: " + vscode.workspace.workspaceFolders[0]);
             request.get({url: 'https://github.com/XyronLabs/Luna/releases/download/0.7-12/luna-0.7-12_windows.zip', encoding: null}, (err, response, body) => {
-                fs.writeFileSync(vscode.workspace.rootPath + "/luna.zip", body, 'binary');
+                fs.writeFileSync(vscode.workspace.workspaceFolders[0] + "/luna.zip", body, 'binary');
 
-                extract_zip(vscode.workspace.rootPath + "/luna.zip", {dir: vscode.workspace.rootPath}, (err) => {
+                extract_zip(vscode.workspace.workspaceFolders[0] + "/luna.zip", {dir: vscode.workspace.workspaceFolders[0]}, (err) => {
                     if (err) vscode.window.showErrorMessage(err);
-                    fs.unlinkSync(vscode.workspace.rootPath + "/luna.zip");
+                    fs.unlinkSync(vscode.workspace.workspaceFolders[0] + "/luna.zip");
                     vscode.window.showInformationMessage("Luna was successfully installed!");
                 });
             });
+            vscode.workspace.getConfiguration('files.exclude').update("**/*.dll", true)
         }));
     }
 }
