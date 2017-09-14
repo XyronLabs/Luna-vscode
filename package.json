@@ -16,7 +16,8 @@
     "activationEvents": [
         "onCommand:luna.run.current",
         "onCommand:luna.run.main",
-        "onCommand:luna.download"
+        "onCommand:luna.download",
+        "onLanguage:lua"
     ],
 
     "main": "./out/src/extension",
@@ -59,7 +60,7 @@
             },
             {
                 "command": "luna.download",
-                "title": "Download Luna",
+                "title": "Install Luna to this folder",
                 "category": "Luna",
                 "icon":{
                     "dark": "logo.png",
@@ -77,7 +78,18 @@
                 "command": "luna.run.main",
                 "key": "Shift+F12"
             }
-        ]
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "luna",
+            "properties": {
+                "luna.version": {
+                    "type": "string",
+                    "default": null,
+                    "description": "Luna version currently installed"
+                }
+            }
+        }
     },
 
     "scripts": {
@@ -90,7 +102,10 @@
     "dependencies": {
         "typescript": "^2.0.3",
         "vscode": "^1.0.0",
-        "extract-zip": "1.6.5"
+        "mocha": "^2.3.3",
+        "@types/node": "^6.0.40",
+        "@types/mocha": "^2.2.32",
+        "extract-zip": "^1.6.5"
     },
 
     "devDependencies": {
@@ -99,6 +114,6 @@
         "mocha": "^2.3.3",
         "@types/node": "^6.0.40",
         "@types/mocha": "^2.2.32",
-        "extract-zip": "1.6.5"
+        "extract-zip": "^1.6.5"
     }
 }
