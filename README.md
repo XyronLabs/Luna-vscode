@@ -12,6 +12,7 @@
 
 ## Release Notes
 
-### 1.1.1
+### 1.2.0
 
-- Added customShape snippet
+- Full Luna integration: You can create a Luna project without downloading any extra files
+- Luna checks for updates when you open the folder

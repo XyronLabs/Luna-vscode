@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+
+- Full Luna integration: You can create a Luna project without downloading any extra files
+- Luna checks for updates when you open the folder
+
 ## 1.1.1
 
 - Added customShape snippet
