@@ -77,6 +77,11 @@
                     "type": "string",
                     "default": null,
                     "description": "Luna version currently installed"
+                },
+                "luna.isLunaProject": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Defines if this workspace is a Luna project"
                 }
             }
         }
