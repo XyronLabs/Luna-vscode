@@ -16,6 +16,7 @@
     "activationEvents": [
         "onCommand:luna.run.current",
         "onCommand:luna.run.main",
+        "onCommand:luna.initproject",
         "onLanguage:lua"
     ],
 
@@ -51,6 +52,15 @@
             {
                 "command": "luna.run.main",
                 "title": "Run main.luna",
+                "category": "Luna",
+                "icon":{
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
+            },
+            {
+                "command": "luna.initproject",
+                "title": "Create a Luna project",
                 "category": "Luna",
                 "icon":{
                     "dark": "logo.png",

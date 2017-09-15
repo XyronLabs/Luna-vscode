@@ -9,19 +9,12 @@ let luna_version, luna_output;
 let term, args1, args2, argsmain;
 
 export function activate(context: vscode.ExtensionContext) {
-    if (!vscode.workspace.getConfiguration('luna').get('isLunaProject')) return;
     // Initialize output channel
     luna_output = vscode.window.createOutputChannel('Luna');
     
-    luna_output.appendLine('Luna is checking for updates, please wait...');
-    luna_output.show();
-
-    // Latest Luna release (from Debian control file)
-    request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/debian/control'}, (err, response, body) => {
-        let text :String = body;
-        luna_version = text.match("[0-9].[0-9](.[0-9])?-[0-9][0-9]([0-9])?")[0];
-        checkLunaInstalled();
-    });
+    if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
+        checkLatestLuna();
+    }
 
     if (process.platform === 'win32') {
         term = 'cmd.exe';
@@ -47,12 +40,33 @@ export function activate(context: vscode.ExtensionContext) {
         x.show();
     });
 
+    let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => {
+        checkLatestLuna();
+
+        // Hide Luna files
+        vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
+        vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
+    });
+
     context.subscriptions.push(luna_run_current);
     context.subscriptions.push(luna_run_main);
+    context.subscriptions.push(luna_create_project);
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {
+}
+
+function checkLatestLuna() {
+    luna_output.appendLine('Luna is checking for updates, please wait...');
+    luna_output.show();
+
+    // Latest Luna release (from Debian control file)
+    request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/debian/control'}, (err, response, body) => {
+        let text :String = body;
+        luna_version = text.match("[0-9].[0-9](.[0-9])?-[0-9][0-9]([0-9])?")[0];
+        checkLunaInstalled();
+    });
 }
 
 function checkLunaInstalled() {
@@ -77,8 +91,5 @@ function installLuna() {
         });
     });
 
-    // Hide Luna files
-    vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
     vscode.workspace.getConfiguration('luna').update('version', luna_version, vscode.ConfigurationTarget.Workspace);
-    vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
 }
