@@ -16,7 +16,6 @@
     "activationEvents": [
         "onCommand:luna.run.current",
         "onCommand:luna.run.main",
-        "onCommand:luna.download",
         "onLanguage:lua"
     ],
 
@@ -52,15 +51,6 @@
             {
                 "command": "luna.run.main",
                 "title": "Run main.luna",
-                "category": "Luna",
-                "icon":{
-                    "dark": "logo.png",
-                    "light": "logo.png"
-                }
-            },
-            {
-                "command": "luna.download",
-                "title": "Install Luna to this folder",
                 "category": "Luna",
                 "icon":{
                     "dark": "logo.png",
@@ -103,8 +93,6 @@
         "typescript": "^2.0.3",
         "vscode": "^1.0.0",
         "mocha": "^2.3.3",
-        "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32",
         "extract-zip": "^1.6.5"
     },
 
