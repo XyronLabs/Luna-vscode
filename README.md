@@ -1,14 +1,21 @@
-# Luna snippets
+# Luna
 
 ## Features
 
-### This extension provides code snippets, commands and keybindings for Luna
+* ### Code snippets, commands and keybindings for Luna
+* ### Create Luna projects, auto-download and auto-update binaries
 
-### Learn more about Luna here: [Luna GitHub Repository](https://github.com/XyronLabs/Luna)
+---
 
-### Download the latest release of Luna here: [Luna downloads](https://github.com/XyronLabs/Luna/releases)
+## Links
+
+* ### Learn more about Luna here: [Luna GitHub Repository](https://github.com/XyronLabs/Luna)
+
+* ### Download the latest release of Luna here: [Luna downloads](https://github.com/XyronLabs/Luna/releases)
 
 ![Luna app template](https://raw.githubusercontent.com/XyronLabs/xyronlabs.github.io/master/img/Luna/vscode_luna_snippet.gif)
+
+---
 
 ## Release Notes
 
