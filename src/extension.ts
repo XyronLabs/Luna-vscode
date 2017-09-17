@@ -30,15 +30,11 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     let luna_run_current = vscode.commands.registerCommand('luna.run.current', () => {
-        luna_output.appendLine("Launching Luna: " + vscode.window.activeTextEditor.document.fileName);
-        let x = vscode.window.createTerminal('Luna terminal', term, [args1 , vscode.window.activeTextEditor.document.fileName, args2]);
-        x.show();
+        runLunaFile(vscode.window.activeTextEditor.document.fileName);
     });
 
     let luna_run_main = vscode.commands.registerCommand('luna.run.main', () => {
-        luna_output.appendLine("Launching Luna: " + vscode.workspace.rootPath + '/main.luna');
-        let x = vscode.window.createTerminal('Luna terminal', term, argsmain);
-        x.show();
+        runLunaFile(vscode.workspace.rootPath + '/main.luna');
     });
 
     let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => {
@@ -62,6 +58,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {
+}
+
+function runLunaFile(filePath) {
+    luna_output.appendLine("Launching Luna: " + filePath);
+    let x = vscode.window.createTerminal('Luna terminal', term, [args1 , filePath, args2]);
+    x.show();
 }
 
 function checkLatestLuna() {
