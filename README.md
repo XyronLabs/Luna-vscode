@@ -27,7 +27,6 @@
 
 ## Release Notes
 
-### 1.2.0
+### 1.2.2
 
-- Full Luna integration: You can create a Luna project without downloading any extra files
-- Luna checks for updates when you open the folder
+- Automatically dispose Luna terminal so only one terminal is created

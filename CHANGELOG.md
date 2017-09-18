@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.2
+
+- Automatically dispose Luna terminal so only one terminal is created
+
+## 1.2.1
+
+- Updated reamde page
+
 ## 1.2.0
 
 - Full Luna integration: You can create a Luna project without downloading any extra files
