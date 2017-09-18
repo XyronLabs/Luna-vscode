@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as request from 'request';
 import * as extract_zip from 'extract-zip';
 
-let luna_version, luna_output;
+let luna_version, luna_output, luna_terminal;
 let term, args1, args2, argsmain;
 
 export function activate(context: vscode.ExtensionContext) {
@@ -60,8 +60,9 @@ export function deactivate() {
 
 function runLunaFile(filePath) {
     luna_output.appendLine("Launching Luna: " + filePath);
-    let x = vscode.window.createTerminal('Luna terminal', term, [args1 , filePath, args2]);
-    x.show();
+    if (luna_terminal) luna_terminal.dispose();
+    luna_terminal = vscode.window.createTerminal('Luna terminal', term, [args1 , filePath, args2]);
+    luna_terminal.show();
 }
 
 function checkLatestLuna() {
