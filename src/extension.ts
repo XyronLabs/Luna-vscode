@@ -41,7 +41,6 @@ export function activate(context: vscode.ExtensionContext) {
         // Hide Luna files
         vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
-        // vscode.workspace.getConfiguration('luna').update('autoHideOutput', false, vscode.ConfigurationTarget.Workspace);
 
         // Create main.lua and open it
         fs.appendFile(vscode.workspace.rootPath + '/main.luna','');
