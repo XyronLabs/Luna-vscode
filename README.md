@@ -27,6 +27,6 @@
 
 ## Release Notes
 
-### 1.2.2
+### 1.2.3
 
-- Automatically dispose Luna terminal so only one terminal is created
+- Automatically save files before launching Luna

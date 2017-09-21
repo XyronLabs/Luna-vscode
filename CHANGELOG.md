@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+
+- Automatically save files before launching Luna
+
 ## 1.2.2
 
 - Automatically dispose Luna terminal so only one terminal is created

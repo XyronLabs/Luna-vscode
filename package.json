@@ -2,7 +2,7 @@
     "name": "luna-vscode",
     "displayName": "Luna",
     "description": "Luna support for VS Code",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "publisher": "ACharLuk",
     "icon": "logo.png",
     "engines": {
