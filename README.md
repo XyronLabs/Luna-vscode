@@ -27,6 +27,6 @@
 
 ## Release Notes
 
-### 1.2.3
+### 1.2.4
 
-- Automatically save files before launching Luna
+- Preserve focus on editor

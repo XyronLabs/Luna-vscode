@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.4
+
+- Preserve focus on editor
+
 ## 1.2.3
 
 - Automatically save files before launching Luna
