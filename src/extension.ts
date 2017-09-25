@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
     } else if (process.platform === 'linux') {
         term = 'bash';
         if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
-            args1 = [ '-c','LD_LIBRARY_PATH=lib ./luna' ];
+            args1 = [ '-c','./luna' ];
         } else {
             args1 = [ '-c', 'luna'];
         }
