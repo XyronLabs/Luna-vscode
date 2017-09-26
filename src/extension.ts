@@ -17,14 +17,24 @@ export function activate(context: vscode.ExtensionContext) {
         checkLatestLuna();
     }
 
-    loadArgs();
+    if (process.platform === 'win32') {
+        term = 'cmd.exe';
+        args1 = ['/Q','/C'];
+        args2 = 'luna ';
+        args3 = ' && pause';
+    } else if (process.platform === 'linux' || process.platform === 'darwin') {
+        term = 'bash';
+        args1 = '-c';
+        args2 = vscode.workspace.getConfiguration('luna').get('isLunaProject') ? './luna ' : 'luna ';
+        args3 = ' && echo Press any key to close... && read';
+    }
 
     let luna_run_current = vscode.commands.registerCommand('luna.run.current', () => {
-        runLunaFile(vscode.window.activeTextEditor.document.fileName);
+        runLunaFile(args2, vscode.window.activeTextEditor.document.fileName);
     });
 
     let luna_run_main = vscode.commands.registerCommand('luna.run.main', () => {
-        runLunaFile(vscode.workspace.rootPath + '/main.luna');
+        runLunaFile(args2, vscode.workspace.rootPath + '/main.luna');
     });
 
     let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => {
@@ -33,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
         // Hide Luna files
         vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/luna": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
-        loadArgs();
+        if (process.platform === 'linux' || process.platform === 'darwin') args2 = './luna ';
 
         // Create main.lua and open it
         fs.appendFile(vscode.workspace.rootPath + '/main.luna','');
@@ -53,11 +63,11 @@ export function deactivate() {
     if (luna_terminal) luna_terminal.dispose();
 }
 
-function runLunaFile(filePath) {
+function runLunaFile(arglocal, filePath) {
     vscode.workspace.saveAll();
     luna_output.appendLine("Launching Luna: " + filePath);
     if (luna_terminal) luna_terminal.dispose();
-    luna_terminal = vscode.window.createTerminal('Luna terminal', term, [args1, args2 + filePath + args3]);
+    luna_terminal = vscode.window.createTerminal('Luna terminal', term, [args1, arglocal + filePath + args3]);
     luna_terminal.show(true);
 }
 
@@ -104,18 +114,4 @@ function installLuna() {
             });
         }
     });
-}
-
-function loadArgs() {
-    if (process.platform === 'win32') {
-        term = 'cmd.exe';
-        args1 = ['/Q','/C'];
-        args2 = 'luna ';
-        args3 = ' && pause';
-    } else if (process.platform === 'linux' || process.platform === 'darwin') {
-        term = 'bash';
-        args1 = '-c';
-        args2 = vscode.workspace.getConfiguration('luna').get('isLunaProject') ? './luna ' : 'luna ';
-        args3 = ' && echo Press any key to close... && read';
-    }
 }
