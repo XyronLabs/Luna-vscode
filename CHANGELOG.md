@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+- Create a project and execute without restarting VS Code
+
 ## 1.3.0
 
 - Full Luna project creation support for Windows, Linux and MacOS
