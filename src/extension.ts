@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
         term = 'cmd.exe';
         args1 = [ '/Q', '/C', 'luna'];
         args2 = ['&&', 'pause'];
-    } else if (process.platform === 'linux') {
+    } else if (process.platform === 'linux' || process.platform === 'darwin') {
         term = 'bash';
         if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
             args1 = [ '-c','./luna' ];
