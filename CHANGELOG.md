@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Full Luna project creation support for Windows, Linux and MacOS
+
 ## 1.2.4
 
 - Preserve focus on editor

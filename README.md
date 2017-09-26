@@ -13,7 +13,7 @@
 1. Open a folder
 2. Run the command: `Luna: Create a Luna Project`
 3. Start typing `luna` to get the snippet template for a Luna sketch
-4. Press F12 to run your Luna application!
+4. Press F12 to run your Luna application! (You can also use Command + R on MacOS)
 5. Go to the [Luna wiki](https://github.com/XyronLabs/Luna/wiki) and start learning!
 
 ---
@@ -27,6 +27,6 @@
 
 ## Release Notes
 
-### 1.2.4
+### 1.3.0
 
-- Preserve focus on editor
+- Full Luna project creation support for Windows, Linux and MacOS
