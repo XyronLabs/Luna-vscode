@@ -6,7 +6,7 @@ import * as request from 'request';
 import * as extract_zip from 'extract-zip';
 
 let luna_version, luna_output, luna_terminal;
-let term, args1, args2, argsmain;
+let term, args1, args2, args3;
 
 export function activate(context: vscode.ExtensionContext) {
     // Initialize output channel
@@ -19,16 +19,14 @@ export function activate(context: vscode.ExtensionContext) {
 
     if (process.platform === 'win32') {
         term = 'cmd.exe';
-        args1 = [ '/Q', '/C', 'luna'];
-        args2 = ['&&', 'pause'];
+        args1 = ['/Q','/C'];
+        args2 = 'luna ';
+        args3 = ' && pause';
     } else if (process.platform === 'linux' || process.platform === 'darwin') {
         term = 'bash';
-        if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
-            args1 = [ '-c','./luna' ];
-        } else {
-            args1 = [ '-c', 'luna'];
-        }
-        args2 = ' && read';
+        args1 = '-c';
+        args2 = vscode.workspace.getConfiguration('luna').get('isLunaProject') ? './luna ' : 'luna ';
+        args3 = ' && read';
     }
 
     let luna_run_current = vscode.commands.registerCommand('luna.run.current', () => {
@@ -43,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
         checkLatestLuna();
 
         // Hide Luna files
-        vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
+        vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/luna": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
 
         // Create main.lua and open it
@@ -68,7 +66,7 @@ function runLunaFile(filePath) {
     vscode.workspace.saveAll();
     luna_output.appendLine("Launching Luna: " + filePath);
     if (luna_terminal) luna_terminal.dispose();
-    luna_terminal = vscode.window.createTerminal('Luna terminal', term, args1.concat(filePath, args2));
+    luna_terminal = vscode.window.createTerminal('Luna terminal', term, [args1, args2 + filePath + args3]);
     luna_terminal.show(true);
 }
 
