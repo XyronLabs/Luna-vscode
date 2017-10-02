@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.3.2
+
+- Extension avaliable for older VS Code versions
+
 ## 1.3.1
 
 - Create a project and execute without restarting VS Code

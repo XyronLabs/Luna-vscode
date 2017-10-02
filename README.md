@@ -27,6 +27,6 @@
 
 ## Release Notes
 
-### 1.3.1
+### 1.3.2
 
-- Create a project and execute without restarting VS Code
+- Extension avaliable for older VS Code versions
