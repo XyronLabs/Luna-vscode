@@ -27,6 +27,6 @@
 
 ## Release Notes
 
-### 1.3.2
+### 1.3.3
 
-- Extension avaliable for older VS Code versions
+- Added `class` snippet

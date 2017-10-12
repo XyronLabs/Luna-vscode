@@ -1,6 +1,10 @@
 # Changelog
 
-### 1.3.2
+## 1.3.3
+
+- Added `class` snippet
+
+## 1.3.2
 
 - Extension avaliable for older VS Code versions
 
