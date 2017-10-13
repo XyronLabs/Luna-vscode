@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.4
+
+- Remove metatable variable
+
 ## 1.3.3
 
 - Added `class` snippet
