@@ -105,14 +105,13 @@
 		"prefix": "class",
 		"body": [
 			"${1:class_name} = {}",
-			"${1}_mt = { __index = ${1} }",
 			"",
 			"function ${1}:new(dat)",
 				"\tlocal obj = dat or {}",
 				"",
 				"\t$0",
 				"",
-				"\tsetmetatable(obj, ${1}_mt)",
+				"\tsetmetatable(obj, { __index = ${1} })",
 				"\treturn obj",
 			"end"
 		],
