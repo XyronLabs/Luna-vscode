@@ -106,10 +106,6 @@
         "test": "node ./node_modules/vscode/bin/test"
     },
     "dependencies": {
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.0",
-        "mocha": "^2.3.3",
-        "extract-zip": "^1.6.5"
     },
     "devDependencies": {
         "typescript": "^2.0.3",
