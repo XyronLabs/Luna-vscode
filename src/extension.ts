@@ -9,6 +9,13 @@ let luna_version, luna_output, luna_terminal;
 let term, args1, args2, args3;
 
 export function activate(context: vscode.ExtensionContext) {
+    // Run Luna button
+    let run_button = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
+    run_button.command = "luna.run.main";
+    run_button.text = "▶ Run Luna";
+    run_button.tooltip = "Run main.luna";
+    run_button.show();
+
     // Initialize output channel
     luna_output = vscode.window.createOutputChannel('Luna');
     luna_output.show(true);
