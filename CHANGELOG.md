@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.6
+
+- Fix keyboard shortcuts
+
+## 1.3.5
+
+- Added a Run Luna status bar icon
+
 ## 1.3.4
 
 - Remove metatable variable

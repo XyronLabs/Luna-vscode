@@ -27,6 +27,6 @@
 
 ## Release Notes
 
-### 1.3.4
+### 1.3.6
 
-- Remove metatable variable
+- Fixed keyboard shortcuts
