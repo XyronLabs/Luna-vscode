@@ -2,9 +2,12 @@
     "name": "luna-vscode",
     "displayName": "Luna",
     "description": "Luna support for VS Code",
-    "version": "1.3.4",
+    "version": "1.3.5",
     "publisher": "ACharLuk",
     "icon": "logo.png",
+    "repository": {
+        "url": "https://github.com/XyronLabs/Luna-vscode"
+    },
     "engines": {
         "vscode": "^1.15.0"
     },
@@ -17,7 +20,7 @@
         "onCommand:luna.run.current",
         "onCommand:luna.run.main",
         "onCommand:luna.initproject",
-        "onLanguage:lua"
+        "workspaceContains:*.luna"
     ],
     "main": "./out/src/extension",
     "contributes": {
@@ -66,20 +69,14 @@
         ],
         "keybindings": [
             {
-                "command": "luna.run.current",
-                "key": "F12"
-            },
-            {
                 "command": "luna.run.main",
-                "key": "Shift+F12"
+                "key": "F12",
+                "mac": "Cmd+R"
             },
             {
                 "command": "luna.run.current",
-                "key": "Cmd+R"
-            },
-            {
-                "command": "luna.run.main",
-                "key": "Cmd+Shift+R"
+                "key": "Shift+F12",
+                "mac": "Cmd+Shift+R"
             }
         ],
         "configuration": {
@@ -106,6 +103,8 @@
         "test": "node ./node_modules/vscode/bin/test"
     },
     "dependencies": {
+        "vscode": "^1.0.0",
+        "extract-zip": "^1.6.5"
     },
     "devDependencies": {
         "typescript": "^2.0.3",
