@@ -105,6 +105,7 @@ function checkLunaInstalled() {
 function installLuna() {
     // Install latest Luna version
     luna_output.appendLine("Installing Luna " + luna_version + " to this folder: " + vscode.workspace.rootPath);
+    luna_output.appendLine("Please wait until this process is finished...")
     request.get({url: 'https://github.com/XyronLabs/Luna/releases/download/' + luna_version + '/luna-' + luna_version + '_standalone_' + process.platform + '.zip', encoding: 'binary'}, (err, response, body) => {
         if (err) {
             vscode.window.showErrorMessage(err);
