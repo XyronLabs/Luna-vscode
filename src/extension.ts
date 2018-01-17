@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
     run_button = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
     run_button.command = "luna.run.main";
     run_button.text = "▶ Run Luna";
-    run_button.tooltip = "Run main.luna (Shift+F12)";
+    run_button.tooltip = "Run main.luna (F12)";
     run_button.show();
 
     // Initialize output channel
