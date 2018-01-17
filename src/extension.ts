@@ -5,9 +5,15 @@ import * as fs from 'fs';
 import * as request from 'request';
 import * as extract_zip from 'extract-zip';
 
-let luna_version, luna_output, luna_terminal;
-let run_button: vscode.StatusBarItem;
-let term, args1, args2, args3;
+let luna_version: string,
+    luna_output: vscode.OutputChannel,
+    luna_terminal: vscode.Terminal,
+    run_button: vscode.StatusBarItem;
+
+let term: string,
+    args1: any,
+    args2: string,
+    args3: string;
 
 export function activate(context: vscode.ExtensionContext) {
     // Run Luna button
