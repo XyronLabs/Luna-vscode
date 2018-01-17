@@ -6,11 +6,12 @@ import * as request from 'request';
 import * as extract_zip from 'extract-zip';
 
 let luna_version, luna_output, luna_terminal;
+let run_button: vscode.StatusBarItem;
 let term, args1, args2, args3;
 
 export function activate(context: vscode.ExtensionContext) {
     // Run Luna button
-    let run_button = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
+    run_button = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
     run_button.command = "luna.run.main";
     run_button.text = "▶ Run Luna";
     run_button.tooltip = "Run main.luna (Shift+F12)";
@@ -67,6 +68,7 @@ export function activate(context: vscode.ExtensionContext) {
 export function deactivate() {
     if (luna_output) luna_output.dispose();
     if (luna_terminal) luna_terminal.dispose();
+    if (run_button) run_button.dispose();
 }
 
 function runLunaFile(filePath) {
