@@ -115,12 +115,14 @@ function installLuna() {
     request.get({url: 'https://github.com/XyronLabs/Luna/releases/download/' + luna_version + '/luna-' + luna_version + '_standalone_' + process.platform + '.zip', encoding: 'binary'}, (err, response, body) => {
         if (err) {
             vscode.window.showErrorMessage(err);
+            luna_output.appendLine(err);
         } else {
             fs.writeFileSync(vscode.workspace.rootPath + "/luna.zip", body, 'binary');
 
             extract_zip(vscode.workspace.rootPath + "/luna.zip", {dir: vscode.workspace.rootPath}, (err) => {
                 if (err) {
                     vscode.window.showErrorMessage("Could not update Luna to version " + luna_version);
+                    luna_output.appendLine("Could not update Luna to version " + luna_version);
                 } else {
                     fs.unlinkSync(vscode.workspace.rootPath + "/luna.zip");
                     luna_output.appendLine("Luna was successfully updated!");
