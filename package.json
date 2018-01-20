@@ -83,6 +83,15 @@
                     "dark": "logo.png",
                     "light": "logo.png"
                 }
+            },
+            {
+                "command": "luna.openwiki",
+                "title": "Open wiki",
+                "category": "Luna",
+                "icon": {
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
             }
         ],
         "keybindings": [

@@ -75,11 +75,16 @@ export function activate(context: vscode.ExtensionContext) {
         installLuna();
     })
 
+    let luna_open_wiki = vscode.commands.registerCommand('luna.openwiki', () => {
+        vscode.commands.executeCommand('vscode.open', vscode.Uri.parse("https://github.com/XyronLabs/Luna/wiki"));
+    })
+
     context.subscriptions.push(luna_run_current);
     context.subscriptions.push(luna_run_main);
     context.subscriptions.push(luna_create_project);
     context.subscriptions.push(luna_update);
     context.subscriptions.push(luna_force_update);
+    context.subscriptions.push(luna_open_wiki);
 }
 
 // this method is called when your extension is deactivated
