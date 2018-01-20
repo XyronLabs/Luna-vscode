@@ -68,7 +68,7 @@
             },
             {
                 "command": "luna.update",
-                "title": "Checks for updates",
+                "title": "Check for updates",
                 "category": "Luna",
                 "icon": {
                     "dark": "logo.png",
@@ -77,7 +77,7 @@
             },
             {
                 "command": "luna.forceupdate",
-                "title": "Forces update",
+                "title": "Force update",
                 "category": "Luna",
                 "icon": {
                     "dark": "logo.png",
