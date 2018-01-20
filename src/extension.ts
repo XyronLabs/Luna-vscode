@@ -70,9 +70,16 @@ export function activate(context: vscode.ExtensionContext) {
         checkLunaInstalled();
     })
 
+    let luna_force_update = vscode.commands.registerCommand('luna.forceupdate', () => {
+        luna_output.show();
+        installLuna();
+    })
+
     context.subscriptions.push(luna_run_current);
     context.subscriptions.push(luna_run_main);
     context.subscriptions.push(luna_create_project);
+    context.subscriptions.push(luna_update);
+    context.subscriptions.push(luna_force_update);
 }
 
 // this method is called when your extension is deactivated
