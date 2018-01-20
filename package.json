@@ -65,6 +65,15 @@
                     "dark": "logo.png",
                     "light": "logo.png"
                 }
+            },
+            {
+                "command": "luna.update",
+                "title": "Checks for Luna updates",
+                "category": "Luna",
+                "icon": {
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
             }
         ],
         "keybindings": [

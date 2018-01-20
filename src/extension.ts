@@ -65,6 +65,11 @@ export function activate(context: vscode.ExtensionContext) {
         });
     });
 
+    let luna_update = vscode.commands.registerCommand('luna.update', () => {
+        luna_output.show();
+        checkLunaInstalled();
+    })
+
     context.subscriptions.push(luna_run_current);
     context.subscriptions.push(luna_run_main);
     context.subscriptions.push(luna_create_project);
