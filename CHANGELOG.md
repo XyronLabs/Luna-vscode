@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.7
+
+- Added Check updates command
+- Added Force update command
+- Added Open wiki command
+- Added Open wiki button
+
 ## 1.3.6
 
 - Fix keyboard shortcuts
@@ -42,7 +49,7 @@
 
 ## 1.2.1
 
-- Updated reamde page
+- Updated readme page
 
 ## 1.2.0
 

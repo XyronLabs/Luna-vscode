@@ -27,6 +27,9 @@
 
 ## Release Notes
 
-### 1.3.6
+### 1.3.7
 
-- Fixed keyboard shortcuts
+- Added Check updates command
+- Added Force update command
+- Added Open wiki command
+- Added Open wiki button
