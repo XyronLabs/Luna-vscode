@@ -114,7 +114,7 @@ function checkLatestLuna() {
     luna_output.appendLine('Luna is checking for updates, please wait...');
 
     // Latest Luna release (from Debian control file)
-    request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/debian/control'}, (err, response, body) => {
+    request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/vscode_version'}, (err, response, body) => {
         let text :String = body;
         luna_version = text.match("[0-9].[0-9](.[0-9])?-[0-9][0-9]([0-9])?")[0];
         checkLunaInstalled();
