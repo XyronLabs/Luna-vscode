@@ -8,7 +8,8 @@ import * as extract_zip from 'extract-zip';
 let luna_version: string,
     luna_output: vscode.OutputChannel,
     luna_terminal: vscode.Terminal,
-    run_button: vscode.StatusBarItem;
+    run_button: vscode.StatusBarItem,
+    openwiki_button: vscode.StatusBarItem;
 
 let term: string,
     args1: any,
@@ -22,6 +23,12 @@ export function activate(context: vscode.ExtensionContext) {
     run_button.text = "▶ Run Luna";
     run_button.tooltip = "Run main.luna (F12)";
     run_button.show();
+
+    openwiki_button = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
+    openwiki_button.command = "luna.openwiki";
+    openwiki_button.text = "🌍 Open Luna wiki";
+    openwiki_button.tooltip = "Go to Luna wiki";
+    openwiki_button.show();
 
     // Initialize output channel
     luna_output = vscode.window.createOutputChannel('Luna');
@@ -92,6 +99,7 @@ export function deactivate() {
     if (luna_output) luna_output.dispose();
     if (luna_terminal) luna_terminal.dispose();
     if (run_button) run_button.dispose();
+    if (openwiki_button) openwiki_button.dispose();
 }
 
 function runLunaFile(filePath) {
