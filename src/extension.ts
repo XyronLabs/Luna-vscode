@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext) {
     luna_output.show(true);
     
     if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
-        checkLatestLuna();
+        checkLatestLuna(true);
     }
 
     if (process.platform === 'win32') {
@@ -59,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => {
-        checkLatestLuna();
+        checkLatestLuna(false);
 
         // Hide Luna files
         vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/luna": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
@@ -74,7 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     let luna_update = vscode.commands.registerCommand('luna.update', () => {
         luna_output.show();
-        checkLunaInstalled();
+        checkLunaInstalled(false);
     })
 
     let luna_force_update = vscode.commands.registerCommand('luna.forceupdate', () => {
@@ -110,18 +110,18 @@ function runLunaFile(filePath) {
     luna_terminal.show(true);
 }
 
-function checkLatestLuna() {
+function checkLatestLuna(automaticHideOutput: boolean) {
     luna_output.appendLine('Luna is checking for updates, please wait...');
 
     // Latest Luna release (from Debian control file)
     request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/vscode_version'}, (err, response, body) => {
         let text :String = body;
         luna_version = text.match("[0-9].[0-9](.[0-9])?-[0-9][0-9]([0-9])?")[0];
-        checkLunaInstalled();
+        checkLunaInstalled(automaticHideOutput);
     });
 }
 
-function checkLunaInstalled() {
+function checkLunaInstalled(automaticHideOutput: boolean) {
     let ver = vscode.workspace.getConfiguration('luna').get('version');
     luna_output.appendLine("Currently installed Luna version: " + ver);
     luna_output.appendLine("Latest Luna version avaliable: " + luna_version);
@@ -130,7 +130,7 @@ function checkLunaInstalled() {
         installLuna();
     } else {
         luna_output.appendLine('Luna is up to date!');
-        luna_output.hide();
+        if (automaticHideOutput) luna_output.hide();
     }
 }
 
