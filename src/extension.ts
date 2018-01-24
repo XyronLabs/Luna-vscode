@@ -99,11 +99,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {
-    if (luna_output) luna_output.dispose();
-    if (luna_terminal) luna_terminal.dispose();
-    if (run_button) run_button.dispose();
-    if (openwiki_button) openwiki_button.dispose();
-    if (open_luna_output) open_luna_output.dispose();
+    luna.dispose();
 }
 
 function runLunaFile(filePath) {
