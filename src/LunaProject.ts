@@ -9,7 +9,6 @@ export class LunaProject {
 
     // binariesVersion: string;
     outputChannel: vscode.OutputChannel;
-    terminal: vscode.Terminal;
 
     buttonLaunch: vscode.StatusBarItem;
     buttonOpenWiki: vscode.StatusBarItem;
@@ -26,10 +25,10 @@ export class LunaProject {
     
     dispose() {
         if (this.outputChannel) this.outputChannel.dispose();
-        if (this.terminal) this.terminal.dispose();
         if (this.buttonLaunch) this.buttonLaunch.dispose();
         if (this.buttonOpenWiki) this.buttonOpenWiki.dispose();
         if (this.buttonOpenOutput) this.buttonOpenOutput.dispose();
+        this.launchHandler.dispose();
     }
     
     launch() {

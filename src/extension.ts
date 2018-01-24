@@ -36,17 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
         luna.checkForUpdates()
     }
 
-    if (process.platform === 'win32') {
-        term = 'cmd.exe';
-        args1 = ['/Q','/C'];
-        args2 = 'luna ';
-        args3 = ' && pause';
-    } else if (process.platform === 'linux' || process.platform === 'darwin') {
-        term = 'bash';
-        args1 = '-c';
-        args2 = './luna ';
-        args3 = ' && echo Press any key to close... && read';
-    }
+    
 
     let luna_run_current = vscode.commands.registerCommand('luna.run.current', () => {
         runLunaFile(vscode.window.activeTextEditor.document.fileName);
