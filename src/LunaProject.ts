@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import { request } from 'request';
-import { extract_zip } from 'extract-zip';
+import * as request from 'request';
+import * as extract_zip from 'extract-zip';
 
 import { LaunchHandler } from './LaunchHandler';
 
@@ -38,12 +38,20 @@ export class LunaProject {
     checkForUpdates(force?: boolean) {
         this.outputChannel.show();
         let currentVersion = this.checkCurrentBinariesVersion();
-        let remoteVersion = this.checkRemoteBinariesVersion();
-
-        if (!currentVersion || currentVersion < remoteVersion || force)
-            this.updateBinaries(remoteVersion);
-        else
-            this.outputChannel.appendLine('Luna is up to date!\n');
+        this.checkRemoteBinariesVersion(remoteVersion => {
+            this.outputChannel.appendLine("Current version: " + currentVersion);
+            this.outputChannel.appendLine("Remote version: " + remoteVersion);
+    
+            if (!remoteVersion) {
+                this.outputChannel.appendLine("Error fetching the latest version!");
+                return;
+            }
+    
+            if (!currentVersion || currentVersion < remoteVersion || force)
+                this.updateBinaries(remoteVersion);
+            else
+                this.outputChannel.appendLine('Luna is up to date!\n');
+        });
     }
 
     updateBinaries(remoteVersion: string) {
@@ -76,17 +84,11 @@ export class LunaProject {
         return vscode.workspace.getConfiguration('luna').get('version');
     }
 
-    private checkRemoteBinariesVersion(): string {
+    private checkRemoteBinariesVersion(_callback): void {
         this.outputChannel.appendLine("Luna is checking for updates, please wait...");
-        let remoteVersion: string;
-
         request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/vscode_version'}, (err, response, body) => {
-            if (err) vscode.window.showErrorMessage("Luna error: " + err);
-            let text = body;
-            remoteVersion = text.match("[0-9].[0-9](.[0-9])?-[0-9][0-9]([0-9])?")[0];
+            return _callback(body);
         });
-
-        return remoteVersion;
     }
 
     private initializeButtons(): void {
