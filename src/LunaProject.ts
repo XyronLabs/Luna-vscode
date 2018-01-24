@@ -66,10 +66,12 @@ export class LunaProject {
                 return;
             }
     
-            if (!currentVersion || currentVersion < remoteVersion || force)
+            if (!currentVersion || currentVersion < remoteVersion || force) {
                 this.updateBinaries(remoteVersion);
-            else
+            } else {
                 this.outputChannel.appendLine('Luna is up to date!\n');
+                if (this.autoHideOutput) this.outputChannel.hide();
+            }
         });
     }
 
