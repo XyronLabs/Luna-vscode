@@ -23,7 +23,7 @@ export class LaunchHandler {
     }
 
     launch(fileName?: string) {
-        if (!fileName) fileName = "main.luna";
+        if (!fileName) fileName = vscode.workspace.rootPath + "/main.luna";
 
         vscode.workspace.saveAll().then(() => {
             if (this.terminal) this.terminal.dispose();

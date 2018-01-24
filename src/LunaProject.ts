@@ -31,8 +31,8 @@ export class LunaProject {
         this.launchHandler.dispose();
     }
     
-    launch() {
-        this.launchHandler.launch();
+    launch(fileName?: string) {
+        this.launchHandler.launch(fileName);
     }
 
     checkForUpdates(force?: boolean) {
