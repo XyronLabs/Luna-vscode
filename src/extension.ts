@@ -17,33 +17,13 @@ export function activate(context: vscode.ExtensionContext) {
         luna.checkForUpdates()
     }
 
-    let luna_run_current = vscode.commands.registerCommand('luna.run.current', () => {
-        luna.launch(vscode.window.activeTextEditor.document.fileName);
-    });
-
-    let luna_run_main = vscode.commands.registerCommand('luna.run.main', () => {
-        luna.launch();
-    });
-
-    let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => {
-        luna.newProject();
-    });
-
-    let luna_update = vscode.commands.registerCommand('luna.update', () => {
-        luna.checkForUpdates();
-    })
-
-    let luna_force_update = vscode.commands.registerCommand('luna.forceupdate', () => {
-        luna.checkForUpdates(true);
-    })
-
-    let luna_open_wiki = vscode.commands.registerCommand('luna.openwiki', () => {
-        vscode.commands.executeCommand('vscode.open', vscode.Uri.parse("https://github.com/XyronLabs/Luna/wiki"));
-    })
-
-    let luna_open_output = vscode.commands.registerCommand('luna.openoutput', () => {
-        luna.outputChannel.show();
-    })
+    let luna_run_current    = vscode.commands.registerCommand('luna.run.current', () => luna.launch(vscode.window.activeTextEditor.document.fileName) );
+    let luna_run_main       = vscode.commands.registerCommand('luna.run.main', () => luna.launch() );
+    let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => luna.newProject() );
+    let luna_update         = vscode.commands.registerCommand('luna.update', () =>luna.checkForUpdates() );
+    let luna_force_update   = vscode.commands.registerCommand('luna.forceupdate', () => luna.checkForUpdates(true) );
+    let luna_open_wiki      = vscode.commands.registerCommand('luna.openwiki', () => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse("https://github.com/XyronLabs/Luna/wiki")) );
+    let luna_open_output    = vscode.commands.registerCommand('luna.openoutput', () => luna.outputChannel.show() );
 
     context.subscriptions.push(luna_run_current);
     context.subscriptions.push(luna_run_main);
@@ -51,6 +31,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(luna_update);
     context.subscriptions.push(luna_force_update);
     context.subscriptions.push(luna_open_wiki);
+    context.subscriptions.push(luna_open_output);
 }
 
 // this method is called when your extension is deactivated
