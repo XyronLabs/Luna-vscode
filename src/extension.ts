@@ -9,7 +9,8 @@ let luna_version: string,
     luna_output: vscode.OutputChannel,
     luna_terminal: vscode.Terminal,
     run_button: vscode.StatusBarItem,
-    openwiki_button: vscode.StatusBarItem;
+    openwiki_button: vscode.StatusBarItem,
+    open_luna_output: vscode.StatusBarItem;
 
 let term: string,
     args1: any,
@@ -33,6 +34,12 @@ export function activate(context: vscode.ExtensionContext) {
     openwiki_button.text = "🌍 Open Luna wiki";
     openwiki_button.tooltip = "Go to Luna wiki";
     openwiki_button.show();
+
+    open_luna_output = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
+    open_luna_output.command = "luna.openoutput";
+    open_luna_output.text = "🌙 Luna output";
+    open_luna_output.tooltip = "Open/Close Luna output";
+    open_luna_output.show();
 
     // Initialize output channel
     luna_output = vscode.window.createOutputChannel('Luna');
@@ -89,6 +96,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     let luna_open_wiki = vscode.commands.registerCommand('luna.openwiki', () => {
         vscode.commands.executeCommand('vscode.open', vscode.Uri.parse("https://github.com/XyronLabs/Luna/wiki"));
+    })
+
+    let luna_open_output = vscode.commands.registerCommand('luna.openoutput', () => {
+        luna_output.show();
     })
 
     context.subscriptions.push(luna_run_current);
