@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0
+- Rewritten most of the extension
+- Luna output hides automatically
+- Added setting for auto hide
+- Added Show Luna output button
+
 ## 1.3.7
 
 - Added Check updates command

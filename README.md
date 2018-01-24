@@ -27,9 +27,9 @@
 
 ## Release Notes
 
-### 1.3.7
+### 1.4.0
 
-- Added Check updates command
-- Added Force update command
-- Added Open wiki command
-- Added Open wiki button
+- Rewritten most of the extension
+- Luna output hides automatically
+- Added setting for auto hide
+- Added Show Luna output button
