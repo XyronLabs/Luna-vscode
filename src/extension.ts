@@ -8,18 +8,6 @@ import { LunaProject } from './LunaProject';
 
 let luna: LunaProject;
 
-let luna_version: string,
-    luna_output: vscode.OutputChannel,
-    luna_terminal: vscode.Terminal,
-    run_button: vscode.StatusBarItem,
-    openwiki_button: vscode.StatusBarItem,
-    open_luna_output: vscode.StatusBarItem;
-
-let term: string,
-    args1: any,
-    args2: string,
-    args3: string;
-
 let automaticHideOutput: vscode.WorkspaceConfiguration;
 
 export function activate(context: vscode.ExtensionContext) {
@@ -27,10 +15,6 @@ export function activate(context: vscode.ExtensionContext) {
     luna = new LunaProject();
 
     automaticHideOutput = vscode.workspace.getConfiguration('luna').get("autoHideOutput");
-
-    // Initialize output channel
-    luna_output = vscode.window.createOutputChannel('Luna');
-    luna_output.show(true);
     
     if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
         luna.checkForUpdates()
@@ -60,12 +44,10 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     let luna_update = vscode.commands.registerCommand('luna.update', () => {
-        luna_output.show();
         luna.checkForUpdates();
     })
 
     let luna_force_update = vscode.commands.registerCommand('luna.forceupdate', () => {
-        luna_output.show();
         luna.checkForUpdates(true);
     })
 
@@ -74,7 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
     })
 
     let luna_open_output = vscode.commands.registerCommand('luna.openoutput', () => {
-        luna_output.show();
+        luna.outputChannel.show();
     })
 
     context.subscriptions.push(luna_run_current);

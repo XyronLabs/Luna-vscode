@@ -36,6 +36,7 @@ export class LunaProject {
     }
 
     checkForUpdates(force?: boolean) {
+        this.outputChannel.show();
         let currentVersion = this.checkCurrentBinariesVersion();
         let remoteVersion = this.checkRemoteBinariesVersion();
 
