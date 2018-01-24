@@ -54,6 +54,7 @@ export class LunaProject {
 
     checkForUpdates(force?: boolean): void {
         this.outputChannel.show();
+        this.outputChannel.appendLine("Luna is checking for updates, please wait...");
         let currentVersion = this.checkCurrentBinariesVersion();
         this.checkRemoteBinariesVersion(remoteVersion => {
             this.outputChannel.appendLine("Current version: " + currentVersion);
@@ -64,12 +65,13 @@ export class LunaProject {
                 return;
             }
     
-            if (!currentVersion || currentVersion < remoteVersion || force) {
+            if (!currentVersion || currentVersion < remoteVersion || force)
                 this.updateBinaries(remoteVersion);
-            } else {
+            else
                 this.outputChannel.appendLine('Luna is up to date!\n');
-                if (this.autoHideOutput) this.outputChannel.hide();
-            }
+            
+            if (this.autoHideOutput)
+                this.outputChannel.hide();
         });
     }
 
@@ -104,7 +106,6 @@ export class LunaProject {
     }
 
     private checkRemoteBinariesVersion(_callback): void {
-        this.outputChannel.appendLine("Luna is checking for updates, please wait...");
         request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/vscode_version'}, (err, response, body) => {
             return _callback(body);
         });
