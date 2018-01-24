@@ -129,7 +129,7 @@ function checkLunaInstalled(automaticHideOutput: boolean) {
     if (!ver || ver < luna_version) {
         installLuna();
     } else {
-        luna_output.appendLine('Luna is up to date!');
+        luna_output.appendLine('Luna is up to date!\n');
         if (automaticHideOutput) luna_output.hide();
     }
 }
@@ -149,10 +149,10 @@ function installLuna() {
             extract_zip(vscode.workspace.rootPath + "/luna.zip", {dir: vscode.workspace.rootPath}, (err) => {
                 if (err) {
                     vscode.window.showErrorMessage("Could not update Luna to version " + luna_version);
-                    luna_output.appendLine("Could not update Luna to version " + luna_version);
+                    luna_output.appendLine("Could not update Luna to version " + luna_version + "\n");
                 } else {
                     fs.unlinkSync(vscode.workspace.rootPath + "/luna.zip");
-                    luna_output.appendLine("Luna was successfully updated!");
+                    luna_output.appendLine("Luna was successfully updated!\n");
                     vscode.workspace.getConfiguration('luna').update('version', luna_version, vscode.ConfigurationTarget.Workspace);
                 }
             });
