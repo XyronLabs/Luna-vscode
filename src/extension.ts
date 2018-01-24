@@ -120,11 +120,12 @@ export function deactivate() {
 }
 
 function runLunaFile(filePath) {
-    vscode.workspace.saveAll();
-    luna_output.appendLine("Launching Luna: " + filePath);
-    if (luna_terminal) luna_terminal.dispose();
-    luna_terminal = vscode.window.createTerminal('Luna terminal', term, [args1, args2 + filePath + args3]);
-    luna_terminal.show(true);
+    vscode.workspace.saveAll().then(() => {
+        luna_output.appendLine("Launching Luna: " + filePath);
+        if (luna_terminal) luna_terminal.dispose();
+        luna_terminal = vscode.window.createTerminal('Luna terminal', term, [args1, args2 + filePath + args3]);
+        luna_terminal.show(true);
+    });
 }
 
 function checkLatestLuna() {
