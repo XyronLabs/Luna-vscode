@@ -85,8 +85,17 @@
                 }
             },
             {
-                "command": "luna.openwiki",
+                "command": "luna.open.wiki",
                 "title": "Open wiki",
+                "category": "Luna",
+                "icon": {
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
+            },
+            {
+                "command": "luna.open.output",
+                "title": "Show Luna output",
                 "category": "Luna",
                 "icon": {
                     "dark": "logo.png",

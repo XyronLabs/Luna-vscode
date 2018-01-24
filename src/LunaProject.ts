@@ -19,18 +19,16 @@ export class LunaProject {
 
     constructor() {
         this.outputChannel = vscode.window.createOutputChannel('Luna');
-        this.initializeButtons();
-
-        this.launchHandler = new LaunchHandler();
-
         this.autoHideOutput = vscode.workspace.getConfiguration('luna').get("autoHideOutput");
+        this.initializeButtons();
+        this.launchHandler = new LaunchHandler();
     
         if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
             this.checkForUpdates()
         }
     }
     
-    dispose() {
+    dispose(): void {
         if (this.outputChannel) this.outputChannel.dispose();
         if (this.buttonLaunch) this.buttonLaunch.dispose();
         if (this.buttonOpenWiki) this.buttonOpenWiki.dispose();
@@ -38,11 +36,11 @@ export class LunaProject {
         this.launchHandler.dispose();
     }
     
-    launch(fileName?: string) {
+    launch(fileName?: string): void {
         this.launchHandler.launch(fileName);
     }
 
-    newProject() {
+    newProject(): void {
         this.checkForUpdates(true);
 
         this.createSettings();
@@ -54,7 +52,7 @@ export class LunaProject {
         });
     }
 
-    checkForUpdates(force?: boolean) {
+    checkForUpdates(force?: boolean): void {
         this.outputChannel.show();
         let currentVersion = this.checkCurrentBinariesVersion();
         this.checkRemoteBinariesVersion(remoteVersion => {
@@ -75,7 +73,7 @@ export class LunaProject {
         });
     }
 
-    updateBinaries(remoteVersion: string) {
+    updateBinaries(remoteVersion: string): void {
         this.outputChannel.appendLine("Installing Luna " + remoteVersion + " to this folder: " + vscode.workspace.rootPath);
         this.outputChannel.appendLine("Please wait until this process is finished...")
         
@@ -120,15 +118,15 @@ export class LunaProject {
         this.buttonLaunch.show();
 
         this.buttonOpenWiki = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
-        this.buttonOpenWiki.command = "luna.openwiki";
+        this.buttonOpenWiki.command = "luna.open.wiki";
         this.buttonOpenWiki.text = "🌍 Open Luna wiki";
         this.buttonOpenWiki.tooltip = "Go to Luna wiki";
         this.buttonOpenWiki.show();
 
         this.buttonOpenOutput = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
-        this.buttonOpenOutput.command = "luna.openoutput";
+        this.buttonOpenOutput.command = "luna.open.output";
         this.buttonOpenOutput.text = "🌙 Luna output";
-        this.buttonOpenOutput.tooltip = "Open/Close Luna output";
+        this.buttonOpenOutput.tooltip = "Show Luna output";
         this.buttonOpenOutput.show();
     }
 
