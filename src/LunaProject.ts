@@ -7,7 +7,6 @@ import { LaunchHandler } from './LaunchHandler';
 
 export class LunaProject {
 
-    // binariesVersion: string;
     outputChannel: vscode.OutputChannel;
     autoHideOutput: boolean;
 
@@ -24,7 +23,7 @@ export class LunaProject {
         this.launchHandler = new LaunchHandler();
     
         if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
-            this.checkForUpdates()
+            this.checkForUpdates(false, true);
         }
     }
     
@@ -52,10 +51,11 @@ export class LunaProject {
         });
     }
 
-    checkForUpdates(force?: boolean): void {
+    checkForUpdates(force?: boolean, autoHide?: boolean): void {
         this.outputChannel.show();
         this.outputChannel.appendLine("Luna is checking for updates, please wait...");
         let currentVersion = this.checkCurrentBinariesVersion();
+        
         this.checkRemoteBinariesVersion(remoteVersion => {
             this.outputChannel.appendLine("Current version: " + currentVersion);
             this.outputChannel.appendLine("Remote version: " + remoteVersion);
@@ -70,7 +70,7 @@ export class LunaProject {
             else
                 this.outputChannel.appendLine('Luna is up to date!\n');
             
-            if (this.autoHideOutput)
+            if (this.autoHideOutput && autoHide)
                 this.outputChannel.hide();
         });
     }
