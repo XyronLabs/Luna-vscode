@@ -1,9 +1,6 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as request from 'request';
-import * as extract_zip from 'extract-zip';
 import { LunaProject } from './LunaProject';
 
 let luna: LunaProject;
@@ -29,18 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => {
-        luna.checkForUpdates(true);
-
-        // Setup Luna settings
-        vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/luna": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
-        vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
-        vscode.workspace.getConfiguration('luna').update('autoHideOutput', true, vscode.ConfigurationTarget.Workspace);
-
-        // Create main.lua and open it
-        fs.appendFile(vscode.workspace.rootPath + '/main.luna','');
-        vscode.workspace.openTextDocument(vscode.workspace.rootPath + '/main.luna').then(doc => {
-            vscode.window.showTextDocument(doc);
-        });
+        luna.newProject();
     });
 
     let luna_update = vscode.commands.registerCommand('luna.update', () => {
