@@ -4,6 +4,9 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as request from 'request';
 import * as extract_zip from 'extract-zip';
+import { LunaProject } from './LunaProject';
+
+let luna: LunaProject;
 
 let luna_version: string,
     luna_output: vscode.OutputChannel,
@@ -20,26 +23,10 @@ let term: string,
 let automaticHideOutput: vscode.WorkspaceConfiguration;
 
 export function activate(context: vscode.ExtensionContext) {
+
+    luna = new LunaProject();
+
     automaticHideOutput = vscode.workspace.getConfiguration('luna').get("autoHideOutput");
-    
-    // Run Luna button
-    run_button = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
-    run_button.command = "luna.run.main";
-    run_button.text = "▶ Run Luna";
-    run_button.tooltip = "Run main.luna (F12)";
-    run_button.show();
-
-    openwiki_button = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
-    openwiki_button.command = "luna.openwiki";
-    openwiki_button.text = "🌍 Open Luna wiki";
-    openwiki_button.tooltip = "Go to Luna wiki";
-    openwiki_button.show();
-
-    open_luna_output = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
-    open_luna_output.command = "luna.openoutput";
-    open_luna_output.text = "🌙 Luna output";
-    open_luna_output.tooltip = "Open/Close Luna output";
-    open_luna_output.show();
 
     // Initialize output channel
     luna_output = vscode.window.createOutputChannel('Luna');
@@ -72,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
     let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => {
         checkLatestLuna();
 
-        // Hide Luna files
+        // Setup Luna settings
         vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/luna": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('autoHideOutput', true, vscode.ConfigurationTarget.Workspace);
