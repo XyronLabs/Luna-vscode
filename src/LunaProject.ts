@@ -9,6 +9,7 @@ export class LunaProject {
 
     // binariesVersion: string;
     outputChannel: vscode.OutputChannel;
+    autoHideOutput: boolean;
 
     buttonLaunch: vscode.StatusBarItem;
     buttonOpenWiki: vscode.StatusBarItem;
@@ -21,6 +22,12 @@ export class LunaProject {
         this.initializeButtons();
 
         this.launchHandler = new LaunchHandler();
+
+        this.autoHideOutput = vscode.workspace.getConfiguration('luna').get("autoHideOutput");
+    
+        if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
+            this.checkForUpdates()
+        }
     }
     
     dispose() {
