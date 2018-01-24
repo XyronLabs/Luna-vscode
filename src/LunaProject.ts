@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { LaunchHandler } from './LaunchHandler';
 
 export class LunaProject {
 
@@ -10,10 +11,13 @@ export class LunaProject {
     buttonOpenWiki: vscode.StatusBarItem;
     buttonOpenOutput: vscode.StatusBarItem;
 
+    launchHandler: LaunchHandler;
+
     constructor() {
         this.outputChannel = vscode.window.createOutputChannel('Luna');
         this.initializeButtons();
 
+        this.launchHandler = new LaunchHandler();
     }
     
     dispose() {
