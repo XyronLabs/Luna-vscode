@@ -119,6 +119,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Defines if this workspace is a Luna project"
+                },
+                "luna.autoHideOutput": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Hides Luna output when it finishes updating"
                 }
             }
         }
