@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
     luna_output.show(true);
     
     if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
-        checkLatestLuna();
+        luna.checkForUpdates()
     }
 
     if (process.platform === 'win32') {
@@ -57,7 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => {
-        checkLatestLuna();
+        luna.checkForUpdates(true);
 
         // Setup Luna settings
         vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/luna": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
@@ -73,12 +73,12 @@ export function activate(context: vscode.ExtensionContext) {
 
     let luna_update = vscode.commands.registerCommand('luna.update', () => {
         luna_output.show();
-        checkLunaInstalled();
+        luna.checkForUpdates();
     })
 
     let luna_force_update = vscode.commands.registerCommand('luna.forceupdate', () => {
         luna_output.show();
-        installLuna();
+        luna.checkForUpdates(true);
     })
 
     let luna_open_wiki = vscode.commands.registerCommand('luna.openwiki', () => {
@@ -108,55 +108,5 @@ function runLunaFile(filePath) {
         if (luna_terminal) luna_terminal.dispose();
         luna_terminal = vscode.window.createTerminal('Luna terminal', term, [args1, args2 + filePath + args3]);
         luna_terminal.show(true);
-    });
-}
-
-function checkLatestLuna() {
-    luna_output.appendLine('Luna is checking for updates, please wait...');
-
-    // Latest Luna release (from Debian control file)
-    request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/vscode_version'}, (err, response, body) => {
-        let text :String = body;
-        luna_version = text.match("[0-9].[0-9](.[0-9])?-[0-9][0-9]([0-9])?")[0];
-        checkLunaInstalled();
-    });
-}
-
-function checkLunaInstalled() {
-    let ver = vscode.workspace.getConfiguration('luna').get('version');
-    luna_output.appendLine("Currently installed Luna version: " + ver);
-    luna_output.appendLine("Latest Luna version avaliable: " + luna_version);
-
-    if (!ver || ver < luna_version) {
-        installLuna();
-    } else {
-        luna_output.appendLine('Luna is up to date!\n');
-        if (automaticHideOutput) luna_output.hide();
-    }
-}
-
-function installLuna() {
-    // Install latest Luna version
-    luna_output.appendLine("Installing Luna " + luna_version + " to this folder: " + vscode.workspace.rootPath);
-    luna_output.appendLine("Please wait until this process is finished...")
-    let url = 'https://github.com/XyronLabs/Luna/releases/download/' + luna_version + '/luna-' + luna_version + '_standalone_' + process.platform + '.zip';
-    request.get({url: url, encoding: 'binary'}, (err, response, body) => {
-        if (err) {
-            vscode.window.showErrorMessage(err);
-            luna_output.appendLine(err);
-        } else {
-            fs.writeFileSync(vscode.workspace.rootPath + "/luna.zip", body, 'binary');
-
-            extract_zip(vscode.workspace.rootPath + "/luna.zip", {dir: vscode.workspace.rootPath}, (err) => {
-                if (err) {
-                    vscode.window.showErrorMessage("Could not update Luna to version " + luna_version);
-                    luna_output.appendLine("Could not update Luna to version " + luna_version + "\n");
-                } else {
-                    fs.unlinkSync(vscode.workspace.rootPath + "/luna.zip");
-                    luna_output.appendLine("Luna was successfully updated!\n");
-                    vscode.workspace.getConfiguration('luna').update('version', luna_version, vscode.ConfigurationTarget.Workspace);
-                }
-            });
-        }
     });
 }

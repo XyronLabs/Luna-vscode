@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 import { request } from 'request';
+import { extract_zip } from 'extract-zip';
 
 import { LaunchHandler } from './LaunchHandler';
 
@@ -34,18 +36,40 @@ export class LunaProject {
         this.launchHandler.launch();
     }
 
-    checkForUpdates() {
+    checkForUpdates(force?: boolean) {
         let currentVersion = this.checkCurrentBinariesVersion();
         let remoteVersion = this.checkRemoteBinariesVersion();
 
-        if (!currentVersion || currentVersion < remoteVersion)
-            this.updateBinaries();
+        if (!currentVersion || currentVersion < remoteVersion || force)
+            this.updateBinaries(remoteVersion);
         else
             this.outputChannel.appendLine('Luna is up to date!\n');
     }
 
-    updateBinaries() {
+    updateBinaries(remoteVersion: string) {
+        this.outputChannel.appendLine("Installing Luna " + remoteVersion + " to this folder: " + vscode.workspace.rootPath);
+        this.outputChannel.appendLine("Please wait until this process is finished...")
+        
+        let url = 'https://github.com/XyronLabs/Luna/releases/download/' + remoteVersion + '/luna-' + remoteVersion + '_standalone_' + process.platform + '.zip';
+        request.get({url: url, encoding: 'binary'}, (err, response, body) => {
+            if (err) {
+                vscode.window.showErrorMessage(err);
+                this.outputChannel.appendLine(err);
+            } else {
+                fs.writeFileSync(vscode.workspace.rootPath + "/luna.zip", body, 'binary');
 
+                extract_zip(vscode.workspace.rootPath + "/luna.zip", {dir: vscode.workspace.rootPath}, (err) => {
+                    if (err) {
+                        vscode.window.showErrorMessage("Could not update Luna to version " + remoteVersion);
+                        this.outputChannel.appendLine("Could not update Luna to version " + remoteVersion + "\n");
+                    } else {
+                        fs.unlinkSync(vscode.workspace.rootPath + "/luna.zip");
+                        this.outputChannel.appendLine("Luna was successfully updated!\n");
+                        vscode.workspace.getConfiguration('luna').update('version', remoteVersion, vscode.ConfigurationTarget.Workspace);
+                    }
+                });
+            }
+        });
     }
 
     private checkCurrentBinariesVersion(): string {
