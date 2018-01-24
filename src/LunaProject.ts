@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import { request } from 'request';
+
 import { LaunchHandler } from './LaunchHandler';
 
 export class LunaProject {
@@ -29,19 +31,41 @@ export class LunaProject {
     }
     
     launch() {
-
+        this.launchHandler.launch();
     }
 
     checkForUpdates() {
+        let currentVersion = this.checkCurrentBinariesVersion();
+        let remoteVersion = this.checkRemoteBinariesVersion();
 
+        if (!currentVersion || currentVersion < remoteVersion)
+            this.updateBinaries();
+        else
+            this.outputChannel.appendLine('Luna is up to date!\n');
     }
 
     updateBinaries() {
 
     }
 
+    private checkCurrentBinariesVersion(): string {
+        return vscode.workspace.getConfiguration('luna').get('version');
+    }
 
-    private initializeButtons() {
+    private checkRemoteBinariesVersion(): string {
+        this.outputChannel.appendLine("Luna is checking for updates, please wait...");
+        let remoteVersion: string;
+
+        request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/vscode_version'}, (err, response, body) => {
+            if (err) vscode.window.showErrorMessage("Luna error: " + err);
+            let text = body;
+            remoteVersion = text.match("[0-9].[0-9](.[0-9])?-[0-9][0-9]([0-9])?")[0];
+        });
+
+        return remoteVersion;
+    }
+
+    private initializeButtons(): void {
         this.buttonLaunch = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
         this.buttonLaunch.command = "luna.run.main";
         this.buttonLaunch.text = "▶ Run Luna";
