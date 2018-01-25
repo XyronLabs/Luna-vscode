@@ -27,9 +27,6 @@
 
 ## Release Notes
 
-### 1.4.0
-
-- Rewritten most of the extension
-- Luna output hides automatically
-- Added setting for auto hide
-- Added Show Luna output button
+### 1.4.1
+- Added timestamp to Luna output
+- Customize window title

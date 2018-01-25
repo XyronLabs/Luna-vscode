@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1
+- Added timestamp to Luna output
+- Customize window title
+
 ## 1.4.0
 - Rewritten most of the extension
 - Luna output hides automatically
