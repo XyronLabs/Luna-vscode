@@ -107,7 +107,7 @@ export class LunaProject {
 
     private checkRemoteBinariesVersion(_callback): void {
         request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/vscode_version'}, (err, response, body) => {
-            return _callback(body);
+            _callback(body);
         });
     }
 
