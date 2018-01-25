@@ -2,11 +2,11 @@ import * as vscode from 'vscode';
 
 export class LaunchHandler {
 
-    term: string;
-    args1: any;
-    args2: string;
-    args3: string;
-    terminal: vscode.Terminal;
+    private term: string;
+    private args1: any;
+    private args2: string;
+    private args3: string;
+    private terminal: vscode.Terminal;
 
     constructor() {
         if (process.platform === 'win32') {

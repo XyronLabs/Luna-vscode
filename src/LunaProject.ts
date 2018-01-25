@@ -7,14 +7,14 @@ import { LaunchHandler } from './LaunchHandler';
 
 export class LunaProject {
 
-    outputChannel: vscode.OutputChannel;
-    autoHideOutput: boolean;
+    public outputChannel: vscode.OutputChannel;
+    private autoHideOutput: boolean;
 
-    buttonLaunch: vscode.StatusBarItem;
-    buttonOpenWiki: vscode.StatusBarItem;
-    buttonOpenOutput: vscode.StatusBarItem;
+    private buttonLaunch: vscode.StatusBarItem;
+    private buttonOpenWiki: vscode.StatusBarItem;
+    private buttonOpenOutput: vscode.StatusBarItem;
 
-    launchHandler: LaunchHandler;
+    private launchHandler: LaunchHandler;
 
     constructor() {
         this.outputChannel = vscode.window.createOutputChannel('Luna');
