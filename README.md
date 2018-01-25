@@ -27,6 +27,5 @@
 
 ## Release Notes
 
-### 1.4.1
-- Added timestamp to Luna output
-- Customize window title
+### 1.4.2
+- Fixed unable to launch current file
