@@ -9,6 +9,7 @@ export class LunaProject {
 
     public outputChannel: vscode.OutputChannel;
     private autoHideOutput: boolean;
+    private dateTime: Date;
 
     private buttonLaunch: vscode.StatusBarItem;
     private buttonOpenWiki: vscode.StatusBarItem;
@@ -19,6 +20,8 @@ export class LunaProject {
     constructor() {
         this.outputChannel = vscode.window.createOutputChannel('Luna');
         this.autoHideOutput = vscode.workspace.getConfiguration('luna').get("autoHideOutput");
+        this.dateTime = new Date();
+        
         this.initializeButtons();
         this.launchHandler = new LaunchHandler();
     
@@ -35,7 +38,8 @@ export class LunaProject {
         this.launchHandler.dispose();
     }
     
-    launch(fileName?: string): void {
+    launch(fileName: string): void {
+        this.println("Launching Luna: " + fileName);
         this.launchHandler.launch(fileName);
     }
 
@@ -53,22 +57,22 @@ export class LunaProject {
 
     checkForUpdates(force?: boolean, autoHide?: boolean): void {
         this.outputChannel.show();
-        this.outputChannel.appendLine("Luna is checking for updates, please wait...");
+        this.println("Luna is checking for updates, please wait...");
         let currentVersion = this.checkCurrentBinariesVersion();
         
         this.checkRemoteBinariesVersion(remoteVersion => {
-            this.outputChannel.appendLine("Current version: " + currentVersion);
-            this.outputChannel.appendLine("Remote version: " + remoteVersion);
+            this.println("Current version: " + currentVersion);
+            this.println("Remote version: " + remoteVersion);
     
             if (!remoteVersion) {
-                this.outputChannel.appendLine("Error fetching the latest version!");
+                this.println("Error fetching the latest version!");
                 return;
             }
     
             if (!currentVersion || currentVersion < remoteVersion || force)
                 this.updateBinaries(remoteVersion);
             else
-                this.outputChannel.appendLine('Luna is up to date!\n');
+                this.println('Luna is up to date!\n');
             
             if (this.autoHideOutput && autoHide)
                 this.outputChannel.hide();
@@ -76,24 +80,24 @@ export class LunaProject {
     }
 
     updateBinaries(remoteVersion: string): void {
-        this.outputChannel.appendLine("Installing Luna " + remoteVersion + " to this folder: " + vscode.workspace.rootPath);
-        this.outputChannel.appendLine("Please wait until this process is finished...")
+        this.println("Installing Luna " + remoteVersion + " to this folder: " + vscode.workspace.rootPath);
+        this.println("Please wait until this process is finished...")
         
         let url = 'https://github.com/XyronLabs/Luna/releases/download/' + remoteVersion + '/luna-' + remoteVersion + '_standalone_' + process.platform + '.zip';
         request.get({url: url, encoding: 'binary'}, (err, response, body) => {
             if (err) {
                 vscode.window.showErrorMessage(err);
-                this.outputChannel.appendLine(err);
+                this.println(err);
             } else {
                 fs.writeFileSync(vscode.workspace.rootPath + "/luna.zip", body, 'binary');
 
                 extract_zip(vscode.workspace.rootPath + "/luna.zip", {dir: vscode.workspace.rootPath}, (err) => {
                     if (err) {
                         vscode.window.showErrorMessage("Could not update Luna to version " + remoteVersion);
-                        this.outputChannel.appendLine("Could not update Luna to version " + remoteVersion + "\n");
+                        this.println("Could not update Luna to version " + remoteVersion + "\n");
                     } else {
                         fs.unlinkSync(vscode.workspace.rootPath + "/luna.zip");
-                        this.outputChannel.appendLine("Luna was successfully updated!\n");
+                        this.println("Luna was successfully updated!\n");
                         vscode.workspace.getConfiguration('luna').update('version', remoteVersion, vscode.ConfigurationTarget.Workspace);
                     }
                 });
@@ -109,6 +113,11 @@ export class LunaProject {
         request.get({url: 'https://raw.githubusercontent.com/XyronLabs/Luna/master/build/vscode_version'}, (err, response, body) => {
             _callback(body);
         });
+    }
+    
+    private println(text) {
+        this.dateTime.setTime(Date.now());
+        this.outputChannel.appendLine("[" + this.dateTime.toLocaleString() + "] " + text);
     }
 
     private initializeButtons(): void {
