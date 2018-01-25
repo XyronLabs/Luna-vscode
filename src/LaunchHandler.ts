@@ -12,12 +12,12 @@ export class LaunchHandler {
         if (process.platform === 'win32') {
             this.term = 'cmd.exe';
             this.args1 = ['/Q','/C'];
-            this.args2 = 'luna ';
+            this.args2 = 'luna -f ';
             this.args3 = ' && pause';
         } else if (process.platform === 'linux' || process.platform === 'darwin') {
             this.term = 'bash';
             this.args1 = '-c';
-            this.args2 = './luna ';
+            this.args2 = './luna -f ';
             this.args3 = ' && echo Press any key to close... && read';
         }
     }
