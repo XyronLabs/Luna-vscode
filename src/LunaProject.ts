@@ -19,11 +19,12 @@ export default class LunaProject {
     private launchHandler: LaunchHandler;
     private extensionHandler: ExtensionHandler;
 
-    constructor() {
+    constructor(context: vscode.ExtensionContext) {
         this.outputChannel = vscode.window.createOutputChannel('Luna');
         this.autoHideOutput = vscode.workspace.getConfiguration('luna').get("autoHideOutput");
         this.dateTime = new Date();
         
+        this.registerCommands(context);
         this.initializeButtons();
         this.launchHandler = new LaunchHandler();
         this.extensionHandler = new ExtensionHandler();
@@ -148,5 +149,23 @@ export default class LunaProject {
         vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('autoHideOutput', true, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('window').update('title', "${dirty}${activeEditorMedium}${separator}${rootName} - Luna Editor", vscode.ConfigurationTarget.Workspace);
+    }
+
+    private registerCommands(context: vscode.ExtensionContext): void {
+        let luna_run_current    = vscode.commands.registerCommand('luna.run.current', () => this.launch(vscode.window.activeTextEditor.document.fileName));
+        let luna_run_main       = vscode.commands.registerCommand('luna.run.main',    () => this.launch(vscode.workspace.rootPath + "/main.luna"));
+        let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => this.newProject());
+        let luna_update         = vscode.commands.registerCommand('luna.update',      () => this.checkForUpdates());
+        let luna_force_update   = vscode.commands.registerCommand('luna.forceupdate', () => this.checkForUpdates(true));
+        let luna_open_wiki      = vscode.commands.registerCommand('luna.open.wiki',   () => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse("https://github.com/XyronLabs/Luna/wiki")));
+        let luna_open_output    = vscode.commands.registerCommand('luna.open.output', () => this.outputChannel.show());
+
+        context.subscriptions.push(luna_run_current);
+        context.subscriptions.push(luna_run_main);
+        context.subscriptions.push(luna_create_project);
+        context.subscriptions.push(luna_update);
+        context.subscriptions.push(luna_force_update);
+        context.subscriptions.push(luna_open_wiki);
+        context.subscriptions.push(luna_open_output);
     }
 }
