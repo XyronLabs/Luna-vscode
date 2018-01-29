@@ -3,10 +3,10 @@ import * as fs from 'fs';
 import * as request from 'request';
 import * as extract_zip from 'extract-zip';
 
-import { LaunchHandler } from './LaunchHandler';
+import LaunchHandler from './LaunchHandler';
 import ExtensionHandler from './ExtensionHandler';
 
-export class LunaProject {
+export default class LunaProject {
 
     public outputChannel: vscode.OutputChannel;
     private autoHideOutput: boolean;

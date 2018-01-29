@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-export class LaunchHandler {
+export default class LaunchHandler {
 
     private term: string;
     private args1: any;
