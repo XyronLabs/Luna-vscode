@@ -4,6 +4,7 @@ import * as request from 'request';
 import * as extract_zip from 'extract-zip';
 
 import { LaunchHandler } from './LaunchHandler';
+import ExtensionHandler from './ExtensionHandler';
 
 export class LunaProject {
 
@@ -16,6 +17,7 @@ export class LunaProject {
     private buttonOpenOutput: vscode.StatusBarItem;
 
     private launchHandler: LaunchHandler;
+    private extensionHandler: ExtensionHandler;
 
     constructor() {
         this.outputChannel = vscode.window.createOutputChannel('Luna');
@@ -24,6 +26,7 @@ export class LunaProject {
         
         this.initializeButtons();
         this.launchHandler = new LaunchHandler();
+        this.extensionHandler = new ExtensionHandler();
     
         if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
             this.checkForUpdates(false, true);

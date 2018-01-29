@@ -3,6 +3,8 @@ import { LunaProject } from './LunaProject';
 import * as request from 'request';
 import * as fs from 'fs';
 
+import { ExtensionHandler } from "./ExtensionHandler";
+
 let luna: LunaProject;
 
 export function activate(context: ExtensionContext) {
@@ -27,21 +29,9 @@ export function activate(context: ExtensionContext) {
 
     // TEST
     let install_extension = commands.registerCommand('luna.install.extension', () => {
-        request.get({url: "https://raw.githubusercontent.com/XyronLabs/Luna-extensions/master/testextension/extension.json", encoding: 'binary'}, (err, response, body) => {
-            let obj = JSON.parse(body);
-            console.log(obj);
-            obj.files = [];
-            obj.files.push("init.lua");
-            obj.files.push("extension.json");
-
-            fs.mkdir(workspace.rootPath + "/res/lua/extensions/" + "testextension/");
-
-            for(let f of obj.files) {
-                request.get({url: "https://raw.githubusercontent.com/XyronLabs/Luna-extensions/master/testextension/" + f, encoding: 'binary'}, (err, response, body) => {
-                    fs.writeFileSync(workspace.rootPath + "/res/lua/extensions/" + "testextension/" + f, body, 'binary');
-                });
-            }
-        });
+        window.showInputBox().then(packageName => {
+            new ExtensionHandler().installExtension(packageName);
+        })
     });
     context.subscriptions.push(install_extension);
 }
