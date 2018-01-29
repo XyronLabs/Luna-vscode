@@ -101,6 +101,15 @@
                     "dark": "logo.png",
                     "light": "logo.png"
                 }
+            },
+            {
+                "command": "luna.install.extension",
+                "title": "Install an extension",
+                "category": "Luna",
+                "icon": {
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
             }
         ],
         "keybindings": [
