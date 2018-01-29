@@ -28,8 +28,8 @@ export default class ExtensionHandler {
     private registerCommands(context: ExtensionContext): void {
         let install_extension = commands.registerCommand('luna.install.extension', () => {
             window.showInputBox().then(packageName => {
-                // new ExtensionHandler().installExtension(packageName);
-            })
+                this.installExtension(packageName);
+            });
         });
         context.subscriptions.push(install_extension);
     }
