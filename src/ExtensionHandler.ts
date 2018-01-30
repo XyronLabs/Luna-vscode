@@ -63,7 +63,7 @@ export default class ExtensionHandler {
         let extensions = this.checkFolderForExtensions();
         
         extensions.forEach(e => {
-            let extensionData: LunaExtension = require(this.extensionFolder + e + "/extension.json");
+            let extensionData: LunaExtension = require(this.getExtensionData(e));
             
             request.get({url: this.baseUrl + e + "/extension.json"}, (err, response, body) => {
                 console.log(`Extension: ${extensionData.name}, local version = ${extensionData.version}, remote version = ${JSON.parse(body).version}`)
@@ -78,7 +78,7 @@ export default class ExtensionHandler {
     private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
         let folders = fs.readdirSync(this.extensionFolder + folder);
         folders.forEach(f => {
-            if (fs.existsSync(this.extensionFolder + folder + "/" + f + "/extension.json")) {
+            if (fs.existsSync(this.getExtensionData(folder + "/" + f))) {
                 extensionList.push(folder + "/" + f);
             } else {
                 return this.checkFolderForExtensions(folder + "/" + f, extensionList);
@@ -90,6 +90,10 @@ export default class ExtensionHandler {
 
     private updateExtension(packageName: string) {
 
+    }
+
+    private getExtensionData(packageName: string): string {
+        return this.extensionFolder + packageName + "/extension.json";
     }
 
     private registerCommands(context: ExtensionContext): void {
