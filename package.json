@@ -119,6 +119,15 @@
                     "dark": "logo.png",
                     "light": "logo.png"
                 }
+            },
+            {
+                "command": "luna.extensions.forceupdate",
+                "title": "Force update Luna extensions",
+                "category": "Luna",
+                "icon": {
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
             }
         ],
         "keybindings": [

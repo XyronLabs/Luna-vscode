@@ -34,7 +34,7 @@ export default class ExtensionHandler {
         });
     }
 
-    checkInstalledExtensions() {
+    checkInstalledExtensions(force?: boolean) {
         let extensions = this.checkFolderForExtensions();
         
         extensions.forEach(e => {
@@ -44,7 +44,7 @@ export default class ExtensionHandler {
                 let remoteData: LunaExtension = JSON.parse(body);
                 console.log(`Extension: ${extensionData.name}, local version = ${extensionData.version}, remote version = ${remoteData.version}`)
 
-                if (extensionData.version < remoteData.version) {
+                if (extensionData.version < remoteData.version || force) {
                     this.updateExtension(e);
                 }
             })
@@ -99,8 +99,10 @@ export default class ExtensionHandler {
     private registerCommands(context: ExtensionContext): void {
         let install_extension = commands.registerCommand('luna.extensions.install', () => this.installExtension());
         let update_extensions = commands.registerCommand('luna.extensions.update', () => this.checkInstalledExtensions());
+        let force_update_extensions = commands.registerCommand('luna.extensions.forceupdate', () => this.checkInstalledExtensions(true));
 
         context.subscriptions.push(install_extension);
         context.subscriptions.push(update_extensions);
+        context.subscriptions.push(force_update_extensions);
     }
 }
