@@ -149,7 +149,7 @@ export default class LunaProject {
 
     private registerCommands(context: vscode.ExtensionContext): void {
         let luna_run_current    = vscode.commands.registerCommand('luna.run.current', () => this.launch(vscode.window.activeTextEditor.document.fileName));
-        let luna_run_main       = vscode.commands.registerCommand('luna.run.main',    () => this.launch(vscode.workspace.rootPath + "/main.luna"));
+        let luna_run_main       = vscode.commands.registerCommand('luna.run.main',    () => this.launch("main.luna"));
         let luna_create_project = vscode.commands.registerCommand('luna.initproject', () => this.newProject());
         let luna_update         = vscode.commands.registerCommand('luna.update',      () => this.checkForUpdates());
         let luna_force_update   = vscode.commands.registerCommand('luna.forceupdate', () => this.checkForUpdates(true));
