@@ -51,10 +51,6 @@ export default class ExtensionHandler {
         })
     }
 
-    updateExtensions() {
-
-    }
-
     private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
         let folders = fs.readdirSync(this.extensionFolder + folder);
         folders.forEach(f => {
