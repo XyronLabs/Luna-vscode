@@ -62,7 +62,13 @@ export default class ExtensionHandler {
     checkInstalledExtensions() {
         let extensions = this.checkFolderForExtensions();
         
-        console.log(extensions);
+        extensions.forEach(e => {
+            let extensionData: LunaExtension = require(this.extensionFolder + e + "/extension.json");
+            
+            request.get({url: this.baseUrl + e + "/extension.json"}, (err, response, body) => {
+                console.log(`Extension: ${extensionData.name}, local version = ${extensionData.version}, remote version = ${JSON.parse(body).version}`)
+            })
+        })
     }
 
     updateExtensions() {
