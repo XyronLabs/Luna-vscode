@@ -23,27 +23,34 @@ export default class ExtensionHandler {
 
     installExtension() {
         request.get({url: this.baseUrl + "luna_extensions.json"}, (err, response, body) => {
+            if (err) { window.showErrorMessage("Couldn't get extension list"); return; }
             let options = JSON.parse(body);
                
             window.showQuickPick(options).then(packageName => {
-                if (packageName) {
-                    request.get({url: this.baseUrl + packageName + "/extension.json"}, (err, response, body) => {
-                        let obj: LunaExtension = JSON.parse(body);
-                        obj.files.push("init.lua");
-                        obj.files.push("extension.json");
-            
-                        if (!fs.existsSync(this.extensionFolder + packageName + "/"))
-                            fs.mkdirSync(this.extensionFolder + packageName + "/");
+                if (!packageName) return;
 
-                        for(let f of obj.files) {
-                            request.get({url: this.baseUrl + packageName + "/" + f}, (err, response, body) => {
-                                fs.writeFileSync(this.extensionFolder + packageName + "/" + f, body);
-                            });
-                        }
-                    });
-                }
+                request.get({url: this.baseUrl + packageName + "/extension.json"}, (err, response, body) => {
+                    if (err) { window.showErrorMessage("Couldn't get extension data"); return; }
+                    let obj: LunaExtension = JSON.parse(body);
+                    obj.files.push("init.lua");
+                    obj.files.push("extension.json");
+        
+                    if (!fs.existsSync(this.extensionFolder + packageName + "/"))
+                        fs.mkdirSync(this.extensionFolder + packageName + "/");
+
+                    window.showInformationMessage("Installing " + obj.name + " " + obj.version);
+
+                    for(let f of obj.files) {
+                        request.get({url: this.baseUrl + packageName + "/" + f}, (err, response, body) => {
+                            if (err) { window.showErrorMessage("Couldn't download file: " + f); return; }
+                            fs.writeFileSync(this.extensionFolder + packageName + "/" + f, body);
+                        });
+                    }
+                    
+                    window.showInformationMessage("Installed " + obj.name + " " + obj.version + " successfully!");
+                });
+                
             });
-            
         });
     }
 
