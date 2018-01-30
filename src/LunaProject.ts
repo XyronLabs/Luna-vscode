@@ -22,14 +22,14 @@ export default class LunaProject {
         this.initializeButtons();
         this.launchHandler = new LaunchHandler();
         this.extensionHandler = new ExtensionHandler(context);
-        
-        if (vscode.workspace.getConfiguration('luna').get('autoUpdateExtensions')) {
-            this.extensionHandler.checkInstalledExtensions();
-        }
     
         if (vscode.workspace.getConfiguration('luna').get('isLunaProject')
             && vscode.workspace.getConfiguration('luna').get('autoUpdateBinaries')) {
             this.checkForUpdates(false, true);
+        }
+
+        if (vscode.workspace.getConfiguration('luna').get('autoUpdateExtensions')) {
+            this.extensionHandler.checkInstalledExtensions();
         }
     }
     

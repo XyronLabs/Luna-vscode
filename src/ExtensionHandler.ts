@@ -37,6 +37,7 @@ export default class ExtensionHandler {
     }
 
     checkInstalledExtensions(force?: boolean) {
+        Logger.println("Checking for extension updates")
         let extensions = this.checkFolderForExtensions();
         
         extensions.forEach(e => {
@@ -49,8 +50,8 @@ export default class ExtensionHandler {
                 if (extensionData.version < remoteData.version || force) {
                     this.updateExtension(e);
                 }
-            })
-        })
+            });
+        });
     }
 
     private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
@@ -61,7 +62,7 @@ export default class ExtensionHandler {
             } else {
                 return this.checkFolderForExtensions(folder + "/" + f, extensionList);
             }
-        })
+        });
 
         return extensionList;
     }
