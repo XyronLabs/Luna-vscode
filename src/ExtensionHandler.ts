@@ -97,8 +97,10 @@ export default class ExtensionHandler {
     }
 
     private registerCommands(context: ExtensionContext): void {
-        let install_extension = commands.registerCommand('luna.install.extension', () => this.installExtension());
+        let install_extension = commands.registerCommand('luna.extensions.install', () => this.installExtension());
+        let update_extensions = commands.registerCommand('luna.extensions.update', () => this.checkInstalledExtensions());
 
         context.subscriptions.push(install_extension);
+        context.subscriptions.push(update_extensions);
     }
 }

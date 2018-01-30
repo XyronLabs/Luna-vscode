@@ -103,8 +103,17 @@
                 }
             },
             {
-                "command": "luna.install.extension",
+                "command": "luna.extensions.install",
                 "title": "Install an extension",
+                "category": "Luna",
+                "icon": {
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
+            },
+            {
+                "command": "luna.extensions.update",
+                "title": "Update Luna extensions",
                 "category": "Luna",
                 "icon": {
                     "dark": "logo.png",
