@@ -29,32 +29,7 @@ export default class ExtensionHandler {
             window.showQuickPick(options).then(packageName => {
                 if (!packageName) return;
 
-                request.get({url: this.baseUrl + packageName + "/extension.json"}, (err, response, body) => {
-                    if (err) { window.showErrorMessage("Couldn't get extension data"); return; }
-                    let obj: LunaExtension = JSON.parse(body);
-                    obj.files.push("init.lua");
-                    obj.files.push("extension.json");
-        
-                    let directoryTree = "";
-                    for (let currDir of packageName.split('/')) {
-                        directoryTree += currDir + "/";
-                        
-                        if (!fs.existsSync(this.extensionFolder + directoryTree))
-                            fs.mkdirSync(this.extensionFolder + directoryTree);
-                    }
-
-                    window.showInformationMessage("Installing " + obj.name + " " + obj.version);
-
-                    for(let f of obj.files) {
-                        request.get({url: this.baseUrl + packageName + "/" + f}, (err, response, body) => {
-                            if (err) { window.showErrorMessage("Couldn't download file: " + f); return; }
-                            fs.writeFileSync(this.extensionFolder + packageName + "/" + f, body);
-                        });
-                    }
-                    
-                    window.showInformationMessage("Installed " + obj.name + " " + obj.version + " successfully!");
-                });
-                
+                this.updateExtension(packageName);
             });
         });
     }
@@ -66,7 +41,12 @@ export default class ExtensionHandler {
             let extensionData: LunaExtension = require(this.getExtensionData(e));
             
             request.get({url: this.baseUrl + e + "/extension.json"}, (err, response, body) => {
-                console.log(`Extension: ${extensionData.name}, local version = ${extensionData.version}, remote version = ${JSON.parse(body).version}`)
+                let remoteData: LunaExtension = JSON.parse(body);
+                console.log(`Extension: ${extensionData.name}, local version = ${extensionData.version}, remote version = ${remoteData.version}`)
+
+                if (extensionData.version < remoteData.version) {
+                    this.updateExtension(e);
+                }
             })
         })
     }
@@ -89,7 +69,31 @@ export default class ExtensionHandler {
     }
 
     private updateExtension(packageName: string) {
+        request.get({url: this.baseUrl + packageName + "/extension.json"}, (err, response, body) => {
+            if (err) { window.showErrorMessage("Couldn't get extension data"); return; }
+            let obj: LunaExtension = JSON.parse(body);
+            obj.files.push("init.lua");
+            obj.files.push("extension.json");
 
+            let directoryTree = "";
+            for (let currDir of packageName.split('/')) {
+                directoryTree += currDir + "/";
+                
+                if (!fs.existsSync(this.extensionFolder + directoryTree))
+                    fs.mkdirSync(this.extensionFolder + directoryTree);
+            }
+
+            window.showInformationMessage("Installing " + obj.name + " " + obj.version);
+
+            for(let f of obj.files) {
+                request.get({url: this.baseUrl + packageName + "/" + f}, (err, response, body) => {
+                    if (err) { window.showErrorMessage("Couldn't download file: " + f); return; }
+                    fs.writeFileSync(this.extensionFolder + packageName + "/" + f, body);
+                });
+            }
+            
+            window.showInformationMessage("Installed " + obj.name + " " + obj.version + " successfully!");
+        });
     }
 
     private getExtensionData(packageName: string): string {
