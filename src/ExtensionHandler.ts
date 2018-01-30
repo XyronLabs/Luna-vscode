@@ -2,6 +2,8 @@ import * as request from 'request';
 import * as fs from 'fs';
 import { workspace, ExtensionContext, commands, window } from 'vscode';
 
+import Logger from './Logger';
+
 interface LunaExtension {
     name: string;
     description: string;
@@ -42,7 +44,7 @@ export default class ExtensionHandler {
             
             request.get({url: this.baseUrl + e + "/extension.json"}, (err, response, body) => {
                 let remoteData: LunaExtension = JSON.parse(body);
-                console.log(`Extension: ${extensionData.name}, local version = ${extensionData.version}, remote version = ${remoteData.version}`)
+                Logger.println(`Extension: ${extensionData.name}, local version = ${extensionData.version}, remote version = ${remoteData.version}`)
 
                 if (extensionData.version < remoteData.version || force) {
                     this.updateExtension(e);
@@ -79,7 +81,7 @@ export default class ExtensionHandler {
                     fs.mkdirSync(this.extensionFolder + directoryTree);
             }
 
-            window.showInformationMessage("Installing " + obj.name + " " + obj.version);
+            Logger.println("Installing " + obj.name + " " + obj.version);
 
             for(let f of obj.files) {
                 request.get({url: this.baseUrl + packageName + "/" + f}, (err, response, body) => {
@@ -88,7 +90,7 @@ export default class ExtensionHandler {
                 });
             }
             
-            window.showInformationMessage("Installed " + obj.name + " " + obj.version + " successfully!");
+            Logger.println("Installed " + obj.name + " " + obj.version + " successfully!");
         });
     }
 
