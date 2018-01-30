@@ -28,6 +28,9 @@ export default class LunaProject {
         this.initializeButtons();
         this.launchHandler = new LaunchHandler();
         this.extensionHandler = new ExtensionHandler(context);
+        
+        // Just for testing
+        this.extensionHandler.checkInstalledExtensions();
     
         if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
             this.checkForUpdates(false, true);
