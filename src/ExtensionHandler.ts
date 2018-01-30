@@ -1,6 +1,6 @@
 import * as request from 'request';
 import * as fs from 'fs';
-import { workspace, ExtensionContext, commands, window, InputBoxOptions } from 'vscode';
+import { workspace, ExtensionContext, commands, window } from 'vscode';
 
 interface LunaExtension {
     name: string;
