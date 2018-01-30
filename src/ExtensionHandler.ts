@@ -35,8 +35,13 @@ export default class ExtensionHandler {
                     obj.files.push("init.lua");
                     obj.files.push("extension.json");
         
-                    if (!fs.existsSync(this.extensionFolder + packageName + "/"))
-                        fs.mkdirSync(this.extensionFolder + packageName + "/");
+                    let directoryTree = "";
+                    for (let currDir of packageName.split('/')) {
+                        directoryTree += currDir + "/";
+                        
+                        if (!fs.existsSync(this.extensionFolder + directoryTree))
+                            fs.mkdirSync(this.extensionFolder + directoryTree);
+                    }
 
                     window.showInformationMessage("Installing " + obj.name + " " + obj.version);
 
@@ -52,6 +57,33 @@ export default class ExtensionHandler {
                 
             });
         });
+    }
+
+    checkInstalledExtensions() {
+        let extensions = this.checkFolderForExtensions();
+        
+        console.log(extensions);
+    }
+
+    updateExtensions() {
+
+    }
+
+    private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
+        let folders = fs.readdirSync(this.extensionFolder + folder);
+        folders.forEach(f => {
+            if (fs.existsSync(this.extensionFolder + folder + "/" + f + "/extension.json")) {
+                extensionList.push(folder + "/" + f);
+            } else {
+                return this.checkFolderForExtensions(folder + "/" + f, extensionList);
+            }
+        })
+
+        return extensionList;
+    }
+
+    private updateExtension(packageName: string) {
+
     }
 
     private registerCommands(context: ExtensionContext): void {
