@@ -29,10 +29,12 @@ export default class LunaProject {
         this.launchHandler = new LaunchHandler();
         this.extensionHandler = new ExtensionHandler(context);
         
-        // Just for testing
-        this.extensionHandler.checkInstalledExtensions();
+        if (vscode.workspace.getConfiguration('luna').get('autoUpdateExtensions')) {
+            this.extensionHandler.checkInstalledExtensions();
+        }
     
-        if (vscode.workspace.getConfiguration('luna').get('isLunaProject')) {
+        if (vscode.workspace.getConfiguration('luna').get('isLunaProject')
+            && vscode.workspace.getConfiguration('luna').get('autoUpdateBinaries')) {
             this.checkForUpdates(false, true);
         }
     }
@@ -152,6 +154,8 @@ export default class LunaProject {
         vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('autoHideOutput', true, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('window').update('title', "${dirty}${activeEditorMedium}${separator}${rootName} - Luna Editor", vscode.ConfigurationTarget.Workspace);
+        vscode.workspace.getConfiguration('luna').update('autoUpdateBinaries', true, vscode.ConfigurationTarget.Workspace);
+        vscode.workspace.getConfiguration('luna').update('autoUpdateExtensions', true, vscode.ConfigurationTarget.Workspace);
     }
 
     private registerCommands(context: vscode.ExtensionContext): void {

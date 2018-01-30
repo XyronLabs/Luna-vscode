@@ -151,6 +151,16 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Hides Luna output when it finishes updating"
+                },
+                "luna.autoUpdateBinaries": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Check for Luna binaries updates automatically"
+                },
+                "luna.autoUpdateExtensions": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Check for Luna extensions updates automatically"
                 }
             }
         }
