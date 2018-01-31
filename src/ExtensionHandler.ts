@@ -10,7 +10,7 @@ interface LunaExtension {
     version: string;
     path: string;
     dependencies?: string[];
-    files: string[];
+    files?: string[];
 }
 
 export default class ExtensionHandler {
