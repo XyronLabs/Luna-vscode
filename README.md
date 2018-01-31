@@ -27,5 +27,6 @@
 
 ## Release Notes
 
-### 1.4.2
-- Fixed unable to launch current file
+### 1.5.0
+- Added extension management system
+- Fixed Luna not launching if there's a space in the path
