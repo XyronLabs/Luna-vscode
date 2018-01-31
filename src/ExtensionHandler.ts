@@ -28,7 +28,7 @@ export default class ExtensionHandler {
         request.get({url: this.baseUrl + "luna_extensions.json"}, (err, response, body) => {
             if (err) { window.showErrorMessage("Couldn't get extension list"); return; }
             let options = JSON.parse(body);
-               
+            
             window.showQuickPick(options).then(packageName => {
                 if (!packageName) return;
 
@@ -63,8 +63,8 @@ export default class ExtensionHandler {
         });
         
         this.getQuickPickSelection(extensionsData, selected => {
+            if (!selected) return;
             let packageName = selected.path;
-            if (!packageName) return;
 
             for (let file of fs.readdirSync(this.extensionFolder + packageName))
                 fs.unlinkSync(this.extensionFolder + packageName + "/" + file);
@@ -127,13 +127,13 @@ export default class ExtensionHandler {
         return this.extensionFolder + packageName + "/extension.json";
     }
 
-    private getQuickPickSelection(options: LunaExtension[], _callback): any {
+    private getQuickPickSelection(options: LunaExtension[], _callback): void {
         let names = options.map(o => o.name);
 
         window.showQuickPick(names).then(selected => {
-            if (!selected) return null;
+            if (!selected) return;
 
-            let a = options.find(e => e.name == selected);
+            let a: LunaExtension | void = options.find(e => e.name == selected);
             _callback(a);
         })
     }
