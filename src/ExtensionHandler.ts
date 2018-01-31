@@ -63,6 +63,7 @@ export default class ExtensionHandler {
             for (let file of fs.readdirSync(this.extensionFolder + packageName))
                 fs.unlinkSync(this.extensionFolder + packageName + "/" + file);
             fs.rmdirSync(this.extensionFolder + packageName);
+            Logger.println("Removed extension: " + packageName);
             
             let f = packageName.split('/');
 
