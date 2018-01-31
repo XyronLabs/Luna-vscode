@@ -56,7 +56,14 @@ export default class ExtensionHandler {
 
     removeExtension() {
         let extensions = this.checkFolderForExtensions();
-        console.log(extensions);
+        
+        window.showQuickPick(extensions).then(packageName => {
+            if (!packageName) return;
+
+            for (let file of fs.readdirSync(this.extensionFolder + packageName))
+                fs.unlinkSync(this.extensionFolder + packageName + "/" + file);
+            fs.rmdirSync(this.extensionFolder + packageName);
+        })
     }
 
     private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
