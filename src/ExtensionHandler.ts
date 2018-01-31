@@ -28,7 +28,7 @@ export default class ExtensionHandler {
         request.get({url: this.baseUrl + "luna_extensions.json"}, (err, response, body) => {
             if (err) { window.showErrorMessage("Couldn't get extension list"); return; }
             let options = JSON.parse(body);
-            
+
             window.showQuickPick(options).then(packageName => {
                 if (!packageName) return;
 
@@ -83,6 +83,8 @@ export default class ExtensionHandler {
     }
 
     private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
+        if (!fs.existsSync(this.extensionFolder + folder)) return [];
+
         let folders = fs.readdirSync(this.extensionFolder + folder);
         folders.forEach(f => {
             if (fs.existsSync(this.getExtensionData(folder + "/" + f))) {
