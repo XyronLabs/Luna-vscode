@@ -63,6 +63,14 @@ export default class ExtensionHandler {
             for (let file of fs.readdirSync(this.extensionFolder + packageName))
                 fs.unlinkSync(this.extensionFolder + packageName + "/" + file);
             fs.rmdirSync(this.extensionFolder + packageName);
+            
+            let f = packageName.split('/');
+
+            if (f.length > 1) {
+                let rootFolder = fs.readdirSync(this.extensionFolder + f[1]);
+                if (rootFolder.length == 0)
+                    fs.rmdirSync(this.extensionFolder + f[1]);
+            }
         })
     }
 
