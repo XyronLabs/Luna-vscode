@@ -27,6 +27,5 @@
 
 ## Release Notes
 
-### 1.5.0
-- Added extension management system
-- Fixed Luna not launching if there's a space in the path
+### 1.5.1
+- Added dependency system for extensions
