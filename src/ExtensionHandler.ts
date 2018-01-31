@@ -54,6 +54,11 @@ export default class ExtensionHandler {
         });
     }
 
+    removeExtension() {
+        let extensions = this.checkFolderForExtensions();
+        console.log(extensions);
+    }
+
     private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
         let folders = fs.readdirSync(this.extensionFolder + folder);
         folders.forEach(f => {
@@ -102,10 +107,12 @@ export default class ExtensionHandler {
     private registerCommands(context: ExtensionContext): void {
         let install_extension = commands.registerCommand('luna.extensions.install', () => this.installExtension());
         let update_extensions = commands.registerCommand('luna.extensions.update', () => this.checkInstalledExtensions());
+        let remove_extension = commands.registerCommand('luna.extensions.remove', () => this.removeExtension());
         let force_update_extensions = commands.registerCommand('luna.extensions.forceupdate', () => this.checkInstalledExtensions(true));
 
         context.subscriptions.push(install_extension);
         context.subscriptions.push(update_extensions);
+        context.subscriptions.push(remove_extension);
         context.subscriptions.push(force_update_extensions);
     }
 }
