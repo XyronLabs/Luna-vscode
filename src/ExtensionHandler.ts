@@ -9,6 +9,7 @@ interface LunaExtension {
     description: string;
     version: string;
     path: string;
+    dependencies?: string[];
     files: string[];
 }
 
@@ -101,8 +102,16 @@ export default class ExtensionHandler {
         request.get({url: this.baseUrl + packageName + "/extension.json"}, (err, response, body) => {
             if (err) { window.showErrorMessage("Couldn't get extension data"); return; }
             let obj: LunaExtension = JSON.parse(body);
+            
+            if (!obj.files) obj.files = [];
             obj.files.push("init.lua");
             obj.files.push("extension.json");
+
+            if (obj.dependencies) {
+                for (let d of obj.dependencies) {
+                    this.updateExtension(d);
+                }
+            }
 
             let directoryTree = "";
             for (let currDir of packageName.split('/')) {
