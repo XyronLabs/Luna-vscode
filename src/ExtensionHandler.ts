@@ -8,6 +8,7 @@ interface LunaExtension {
     name: string;
     description: string;
     version: string;
+    path: string;
     files: string[];
 }
 
@@ -56,8 +57,13 @@ export default class ExtensionHandler {
 
     removeExtension() {
         let extensions = this.checkFolderForExtensions();
+        let extensionsData: LunaExtension[] = [];
+        extensions.forEach(e => {
+            extensionsData.push(require(this.getExtensionData(e)));
+        });
         
-        window.showQuickPick(extensions).then(packageName => {
+        this.getQuickPickSelection(extensionsData, selected => {
+            let packageName = selected.path;
             if (!packageName) return;
 
             for (let file of fs.readdirSync(this.extensionFolder + packageName))
@@ -72,7 +78,8 @@ export default class ExtensionHandler {
                 if (rootFolder.length == 0)
                     fs.rmdirSync(this.extensionFolder + f[1]);
             }
-        })
+        });
+        
     }
 
     private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
@@ -118,6 +125,17 @@ export default class ExtensionHandler {
 
     private getExtensionData(packageName: string): string {
         return this.extensionFolder + packageName + "/extension.json";
+    }
+
+    private getQuickPickSelection(options: LunaExtension[], _callback): any {
+        let names = options.map(o => o.name);
+
+        window.showQuickPick(names).then(selected => {
+            if (!selected) return null;
+
+            let a = options.find(e => e.name == selected);
+            _callback(a);
+        })
     }
 
     private registerCommands(context: ExtensionContext): void {
