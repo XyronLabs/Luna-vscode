@@ -1,6 +1,4 @@
-import { commands, window, workspace, ExtensionContext, Uri } from 'vscode';
-import * as request from 'request';
-import * as fs from 'fs';
+import { ExtensionContext } from 'vscode';
 
 import LunaProject from './LunaProject';
 
