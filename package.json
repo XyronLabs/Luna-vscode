@@ -190,15 +190,14 @@
         "test": "node ./node_modules/vscode/bin/test"
     },
     "dependencies": {
-        "vscode": "^1.0.0",
-        "extract-zip": "^1.6.5"
+        "extract-zip": "^1.6.5",
+        "luna-manager": "^0.2.4",
+        "vscode": "^1.0.0"
     },
     "devDependencies": {
         "typescript": "^2.0.3",
-        "vscode": "^1.0.0",
         "mocha": "^2.3.3",
         "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32",
-        "extract-zip": "^1.6.5"
+        "@types/mocha": "^2.2.32"
     }
 }
