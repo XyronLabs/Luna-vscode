@@ -36,9 +36,6 @@ export default class LunaProject {
             LunaManager.checkForUpdates(this.path, this.printfn, false);
         }
 
-        if (vscode.workspace.getConfiguration('luna').get('autoUpdateExtensions')) {
-            this.extensionHandler.checkInstalledExtensions();
-        }
     }
     
     dispose(): void {

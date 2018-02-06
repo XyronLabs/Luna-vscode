@@ -191,7 +191,7 @@
     },
     "dependencies": {
         "extract-zip": "^1.6.5",
-        "luna-manager": "^0.2.4",
+        "luna-manager": "^0.2.5",
         "vscode": "^1.0.0"
     },
     "devDependencies": {

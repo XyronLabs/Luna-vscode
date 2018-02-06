@@ -1,6 +1,7 @@
 import * as request from 'request';
 import * as fs from 'fs';
 import { workspace, ExtensionContext, commands, window } from 'vscode';
+import * as LunaManager from 'luna-manager'
 
 import Logger from './Logger';
 
@@ -17,12 +18,20 @@ export default class ExtensionHandler {
 
     private baseUrl: string;
     private extensionFolder: string;
+    private path: string;
+    private printfn: Function;
 
     constructor(context: ExtensionContext) {
         this.baseUrl = "https://raw.githubusercontent.com/XyronLabs/Luna-extensions/master/";
         this.extensionFolder = workspace.rootPath + "/res/lua/extensions/";
+        this.path = workspace.rootPath;
+        this.printfn = msg => Logger.println(msg);
 
         this.registerCommands(context);
+
+        if (workspace.getConfiguration('luna').get('autoUpdateExtensions')) {
+            LunaManager.checkInstalledExtensions(this.path, this.printfn);
+        }
     }
 
     installExtension() {
@@ -33,34 +42,16 @@ export default class ExtensionHandler {
             window.showQuickPick(options).then(packageName => {
                 if (!packageName) return;
 
-                this.updateExtension(packageName);
-            });
-        });
-    }
-
-    checkInstalledExtensions(force?: boolean) {
-        Logger.println("Checking for extension updates")
-        let extensions = this.checkFolderForExtensions();
-        
-        extensions.forEach(e => {
-            let extensionData: LunaExtension = require(this.getExtensionData(e));
-            
-            request.get({url: this.baseUrl + e + "/extension.json"}, (err, response, body) => {
-                let remoteData: LunaExtension = JSON.parse(body);
-                Logger.println(`Extension: ${extensionData.name}, local version = ${extensionData.version}, remote version = ${remoteData.version}`)
-
-                if (extensionData.version < remoteData.version || force) {
-                    this.updateExtension(e);
-                }
+                LunaManager.updateExtension(this.path, this.printfn, packageName);
             });
         });
     }
 
     removeExtension() {
-        let extensions = this.checkFolderForExtensions();
+        let extensions = LunaManager.checkFolderForExtensions(this.path);
         let extensionsData: LunaExtension[] = [];
         extensions.forEach(e => {
-            extensionsData.push(require(this.getExtensionData(e)));
+            extensionsData.push(require(LunaManager.getExtensionData(this.path, e)));
         });
         
         this.getQuickPickSelection(extensionsData, selected => {
@@ -98,61 +89,6 @@ export default class ExtensionHandler {
         
     }
 
-    private checkFolderForExtensions(folder: string = "", extensionList: string[] = []) {
-        if (!fs.existsSync(this.extensionFolder + folder)) return [];
-
-        let folders = fs.readdirSync(this.extensionFolder + folder);
-        folders.forEach(f => {
-            if (fs.existsSync(this.getExtensionData(folder + "/" + f))) {
-                extensionList.push(folder + "/" + f);
-            } else {
-                return this.checkFolderForExtensions(folder + "/" + f, extensionList);
-            }
-        });
-
-        return extensionList;
-    }
-
-    private updateExtension(packageName: string) {
-        request.get({url: this.baseUrl + packageName + "/extension.json"}, (err, response, body) => {
-            if (err) { window.showErrorMessage("Couldn't get extension data"); return; }
-            let obj: LunaExtension = JSON.parse(body);
-            
-            if (!obj.files) obj.files = [];
-            obj.files.push("init.lua");
-            obj.files.push("extension.json");
-
-            if (obj.dependencies) {
-                for (let d of obj.dependencies) {
-                    this.updateExtension(d);
-                }
-            }
-
-            let directoryTree = "";
-            for (let currDir of packageName.split('/')) {
-                directoryTree += currDir + "/";
-                
-                if (!fs.existsSync(this.extensionFolder + directoryTree))
-                    fs.mkdirSync(this.extensionFolder + directoryTree);
-            }
-
-            Logger.println("Installing " + obj.name + " " + obj.version);
-
-            for(let f of obj.files) {
-                request.get({url: this.baseUrl + packageName + "/" + f}, (err, response, body) => {
-                    if (err) { window.showErrorMessage("Couldn't download file: " + f); return; }
-                    fs.writeFileSync(this.extensionFolder + packageName + "/" + f, body);
-                });
-            }
-            
-            Logger.println("Installed " + obj.name + " " + obj.version + " successfully!");
-        });
-    }
-
-    private getExtensionData(packageName: string): string {
-        return this.extensionFolder + packageName + "/extension.json";
-    }
-
     private getQuickPickSelection(options: LunaExtension[], _callback): void {
         let names = options.map(o => o.name);
 
@@ -166,9 +102,9 @@ export default class ExtensionHandler {
 
     private registerCommands(context: ExtensionContext): void {
         let install_extension = commands.registerCommand('luna.extensions.install', () => this.installExtension());
-        let update_extensions = commands.registerCommand('luna.extensions.update', () => this.checkInstalledExtensions());
+        let update_extensions = commands.registerCommand('luna.extensions.update', () => LunaManager.checkInstalledExtensions(this.path, this.printfn));
         let remove_extension = commands.registerCommand('luna.extensions.remove', () => this.removeExtension());
-        let force_update_extensions = commands.registerCommand('luna.extensions.forceupdate', () => this.checkInstalledExtensions(true));
+        let force_update_extensions = commands.registerCommand('luna.extensions.forceupdate', () => LunaManager.checkInstalledExtensions(this.path, this.printfn, true));
 
         context.subscriptions.push(install_extension);
         context.subscriptions.push(update_extensions);
