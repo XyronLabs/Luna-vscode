@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.0
+- Use luna-manager package
+
 ## 1.5.1
 - Added dependency system for extensions
 
