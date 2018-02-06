@@ -21,8 +21,6 @@ export default class LunaProject {
     private printfn: Function;
 
     constructor(context: vscode.ExtensionContext) {
-        Logger.println("Loading Luna extension")
-
         this.path = vscode.workspace.rootPath;
         this.printfn = msg => Logger.println(msg);
         
