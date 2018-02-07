@@ -2,7 +2,7 @@
     "name": "luna-vscode",
     "displayName": "Luna",
     "description": "Luna support for VS Code",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "publisher": "ACharLuk",
     "icon": "logo.png",
     "repository": {
@@ -191,7 +191,7 @@
     },
     "dependencies": {
         "extract-zip": "^1.6.5",
-        "luna-manager": "^0.2.5",
+        "luna-manager": "^0.2.10",
         "vscode": "^1.0.0"
     },
     "devDependencies": {

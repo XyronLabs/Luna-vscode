@@ -55,36 +55,9 @@ export default class ExtensionHandler {
         });
         
         this.getQuickPickSelection(extensionsData, selected => {
-            if (!selected) return;
-            let packageName = selected.path;
-
-            // Check if an installed extension depends on this one
-            let ableToRemove = true
-            extensionsData.forEach(element => {
-                if (element.dependencies) {
-                    element.dependencies.forEach(d => {
-                        if (d == packageName) {
-                            window.showErrorMessage(`Can't remove ${selected.name} extension, ${element.name} depends on this extension`);
-                            ableToRemove = false;
-                        }
-                    });
-                }
-            });
-
-            if (ableToRemove) {
-                for (let file of fs.readdirSync(this.extensionFolder + packageName))
-                fs.unlinkSync(this.extensionFolder + packageName + "/" + file);
-                fs.rmdirSync(this.extensionFolder + packageName);
-                Logger.println("Removed extension: " + packageName);
-                
-                let f = packageName.split('/');
-                
-                if (f.length > 2) {
-                    let rootFolder = fs.readdirSync(this.extensionFolder + f[1]);
-                    if (rootFolder.length == 0)
-                    fs.rmdirSync(this.extensionFolder + f[1]);
-                }
-            }
+            LunaManager.removeExtension(this.path, this.printfn, selected, extensionsData, err => {
+                window.showErrorMessage(err);
+            })
         });
         
     }
