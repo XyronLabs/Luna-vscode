@@ -78,10 +78,20 @@ export default class ExtensionHandler {
         let update_extensions = commands.registerCommand('luna.extensions.update', () => LunaManager.checkInstalledExtensions(this.path, this.printfn));
         let remove_extension = commands.registerCommand('luna.extensions.remove', () => this.removeExtension());
         let force_update_extensions = commands.registerCommand('luna.extensions.forceupdate', () => LunaManager.checkInstalledExtensions(this.path, this.printfn, true));
+        let luna_avaliable_extensions = commands.registerCommand('luna.extensions.show_avaliable', () => {
+            Logger.show()
+            Logger.println("Avaliable extensions:")
+            LunaManager.getRemoteAvaliableExtensions((extensionsData: LunaManager.LunaExtension[]) => {
+                extensionsData.forEach(curr => {
+                    Logger.println(`${curr.name} ${curr.version}: path=${curr.path} ${curr.dependencies ? `, dependencies=${curr.dependencies}` : ``}`)
+                });
+            });
+        });
 
         context.subscriptions.push(install_extension);
         context.subscriptions.push(update_extensions);
         context.subscriptions.push(remove_extension);
         context.subscriptions.push(force_update_extensions);
+        context.subscriptions.push(luna_avaliable_extensions);
     }
 }

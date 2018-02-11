@@ -137,6 +137,15 @@
                     "dark": "logo.png",
                     "light": "logo.png"
                 }
+            },
+            {
+                "command": "luna.extensions.show_avaliable",
+                "title": "Show avaliable Luna extensions",
+                "category": "Luna",
+                "icon": {
+                    "dark": "logo.png",
+                    "light": "logo.png"
+                }
             }
         ],
         "keybindings": [
@@ -191,7 +200,7 @@
     },
     "dependencies": {
         "extract-zip": "^1.6.5",
-        "luna-manager": "^0.2.10",
+        "luna-manager": "^0.2.13",
         "vscode": "^1.0.0"
     },
     "devDependencies": {
