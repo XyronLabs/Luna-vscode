@@ -1,7 +1,5 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import * as request from 'request';
-import * as extract_zip from 'extract-zip';
 import * as LunaManager from 'luna-manager';
 
 import LaunchHandler from './LaunchHandler';
@@ -50,6 +48,10 @@ export default class LunaProject {
     }
 
     newProject(): void {
+        if (!vscode.workspace.workspaceFolders) {
+            vscode.window.showErrorMessage("Open a folder before creating a project!");
+            return;
+        }
         LunaManager.newProject(this.path, this.printfn);
         
         this.createSettings();
@@ -98,7 +100,6 @@ export default class LunaProject {
         let luna_force_update   = vscode.commands.registerCommand('luna.forceupdate', () => LunaManager.checkForUpdates(this.path, this.printfn, true));
         let luna_open_wiki      = vscode.commands.registerCommand('luna.open.wiki',   () => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse("https://github.com/XyronLabs/Luna/wiki")));
         let luna_open_output    = vscode.commands.registerCommand('luna.open.output', () => Logger.show());
-        
 
         context.subscriptions.push(luna_run_current);
         context.subscriptions.push(luna_run_main);
