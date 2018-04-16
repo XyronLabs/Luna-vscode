@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.2
+- Update to luna-manager 0.2.16
+
+## 1.6.1
+- Add avaliable extensions command
+
 ## 1.6.0
 - Use luna-manager package
 
