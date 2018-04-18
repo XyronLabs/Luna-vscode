@@ -2,7 +2,7 @@
     "name": "luna-vscode",
     "displayName": "Luna",
     "description": "Luna support for VS Code",
-    "version": "1.6.3",
+    "version": "1.6.4",
     "publisher": "ACharLuk",
     "icon": "logo.png",
     "repository": {
@@ -201,12 +201,14 @@
     "dependencies": {
         "extract-zip": "^1.6.5",
         "luna-manager": "^0.2.16",
-        "vscode": "^1.1.14"
+        "node-fetch": "^2.1.2"
     },
     "devDependencies": {
         "typescript": "^2.0.3",
         "mocha": "^2.3.3",
         "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32"
+        "@types/mocha": "^2.2.32",
+        "@types/node-fetch": "^1.6.7",
+        "vscode": "^1.1.14"
     }
 }
