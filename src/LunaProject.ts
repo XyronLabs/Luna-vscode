@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import fetch from 'node-fetch';
 import * as LunaManager from 'luna-manager';
 
 import LaunchHandler from './LaunchHandler';
@@ -61,6 +62,29 @@ export default class LunaProject {
         vscode.workspace.openTextDocument(vscode.workspace.rootPath + '/main.luna').then(doc => {
             vscode.window.showTextDocument(doc);
         });
+    }
+
+    downloadDemo(): void {
+        // Download file list
+        fetch('https://raw.githubusercontent.com/XyronLabs/Luna-demos/master/files.json')
+            .then(res => res.json())
+            .then((data: string[]) => {
+
+                // Let user pick a demo file
+                vscode.window.showQuickPick(data)
+                    .then(selected => {
+                        if (!selected) { return; }
+
+                        fetch('https://raw.githubusercontent.com/XyronLabs/Luna-demos/master/' + selected)
+                            .then(data => {
+                                fs.writeFileSync(vscode.workspace.rootPath + '/main.luna', data);
+                            })
+                            .then(() => vscode.window.showInformationMessage('Luna: Demo downloaded!'))
+                            .catch(error => vscode.window.showErrorMessage("Luna error: couldn't download the specified demo"));
+
+                    });
+            })
+            .catch(error => vscode.window.showErrorMessage("Luna error: Couldn't fetch demo file list"));
     }
 
     private initializeButtons(): void {
