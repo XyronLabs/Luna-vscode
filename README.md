@@ -27,5 +27,5 @@
 
 ## Release Notes
 
-### 1.6.4
-- You can now download demos using the `Download a Luna demo` command
+### 1.6.5
+- Rename original main.luna instead of deleting it

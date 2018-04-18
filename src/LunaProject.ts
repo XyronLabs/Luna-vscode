@@ -53,7 +53,7 @@ export default class LunaProject {
             vscode.window.showErrorMessage("Open a folder before creating a project!");
             return;
         }
-        
+
         vscode.window.showInformationMessage("Please wait while Luna is installing");
         Logger.show();
         LunaManager.newProject(this.path, this.printfn);
@@ -81,6 +81,11 @@ export default class LunaProject {
                         fetch('https://raw.githubusercontent.com/XyronLabs/Luna-demos/master/' + selected)
                             .then(data => data.text())
                             .then(data => {
+                                if (fs.existsSync(vscode.workspace.rootPath + '/main.luna')) {
+                                    let newFileName = '/main.old-' + Date.now() + '.luna';
+                                    fs.renameSync(vscode.workspace.rootPath + '/main.luna', vscode.workspace.rootPath + newFileName);
+                                    vscode.window.showInformationMessage("Luna: Your main.luna has been renamed to " + newFileName);
+                                }
                                 fs.writeFileSync(vscode.workspace.rootPath + '/main.luna', data);
                             })
                             .then(() => vscode.window.showInformationMessage('Luna: Demo downloaded!'))
