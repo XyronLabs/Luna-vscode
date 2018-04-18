@@ -76,6 +76,7 @@ export default class LunaProject {
                         if (!selected) { return; }
 
                         fetch('https://raw.githubusercontent.com/XyronLabs/Luna-demos/master/' + selected)
+                            .then(data => data.text())
                             .then(data => {
                                 fs.writeFileSync(vscode.workspace.rootPath + '/main.luna', data);
                             })
@@ -124,6 +125,7 @@ export default class LunaProject {
         let luna_force_update   = vscode.commands.registerCommand('luna.forceupdate', () => LunaManager.checkForUpdates(this.path, this.printfn, true));
         let luna_open_wiki      = vscode.commands.registerCommand('luna.open.wiki',   () => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse("https://github.com/XyronLabs/Luna/wiki")));
         let luna_open_output    = vscode.commands.registerCommand('luna.open.output', () => Logger.show());
+        let luna_download_demo = vscode.commands.registerCommand('luna.download_demo', () => this.downloadDemo());
 
         context.subscriptions.push(luna_run_current);
         context.subscriptions.push(luna_run_main);
