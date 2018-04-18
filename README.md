@@ -27,5 +27,5 @@
 
 ## Release Notes
 
-### 1.6.2
-- Update to luna-manager 0.2.16
+### 1.6.4
+- You can now download demos using the `Download a Luna demo` command
