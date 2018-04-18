@@ -53,6 +53,9 @@ export default class LunaProject {
             vscode.window.showErrorMessage("Open a folder before creating a project!");
             return;
         }
+        
+        vscode.window.showInformationMessage("Please wait while Luna is installing");
+        Logger.show();
         LunaManager.newProject(this.path, this.printfn);
         
         this.createSettings();
