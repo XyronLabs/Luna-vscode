@@ -9,7 +9,7 @@
         "url": "https://github.com/XyronLabs/Luna-vscode"
     },
     "engines": {
-        "vscode": "^1.22.0"
+        "vscode": "^1.23.0"
     },
     "categories": [
         "Snippets",
@@ -208,16 +208,16 @@
         "test": "node ./node_modules/vscode/bin/test"
     },
     "dependencies": {
-        "extract-zip": "^1.6.5",
+        "extract-zip": "^1.6.6",
         "luna-manager": "^0.2.16",
         "node-fetch": "^2.1.2"
     },
     "devDependencies": {
-        "typescript": "^2.0.3",
-        "mocha": "^2.3.3",
-        "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32",
-        "@types/node-fetch": "^1.6.7",
-        "vscode": "^1.1.14"
+        "typescript": "^2.8.3",
+        "mocha": "^5.1.1",
+        "@types/node": "^8.0.0",
+        "@types/mocha": "^5.2.0",
+        "@types/node-fetch": "^1.6.9",
+        "vscode": "^1.1.17"
     }
 }

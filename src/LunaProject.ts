@@ -22,19 +22,19 @@ export default class LunaProject {
     constructor(context: vscode.ExtensionContext) {
         this.path = vscode.workspace.rootPath;
         this.printfn = msg => Logger.println(msg);
-        
+
         this.registerCommands(context);
         this.initializeButtons();
         this.launchHandler = new LaunchHandler();
         this.extensionHandler = new ExtensionHandler(context);
-    
+
         if (vscode.workspace.getConfiguration('luna').get('isLunaProject')
             && vscode.workspace.getConfiguration('luna').get('autoUpdateBinaries')) {
             LunaManager.checkForUpdates(this.path, this.printfn, false);
         }
 
     }
-    
+
     dispose(): void {
         if (this.buttonLaunch) this.buttonLaunch.dispose();
         if (this.buttonOpenWiki) this.buttonOpenWiki.dispose();
@@ -42,7 +42,7 @@ export default class LunaProject {
         this.launchHandler.dispose();
         Logger.dispose();
     }
-    
+
     launch(fileName: string): void {
         Logger.println("Launching Luna: " + fileName);
         this.launchHandler.launch(fileName);
@@ -57,11 +57,11 @@ export default class LunaProject {
         vscode.window.showInformationMessage("Please wait while Luna is installing");
         Logger.show();
         LunaManager.newProject(this.path, this.printfn);
-        
+
         this.createSettings();
-        
+
         // Create main.lua and open it
-        fs.appendFile(vscode.workspace.rootPath + '/main.luna','');
+        fs.appendFile(vscode.workspace.rootPath + '/main.luna','', error => vscode.window.showErrorMessage("Error creating main.luna: " + error));
         vscode.workspace.openTextDocument(vscode.workspace.rootPath + '/main.luna').then(doc => {
             vscode.window.showTextDocument(doc);
         });
@@ -117,7 +117,7 @@ export default class LunaProject {
     }
 
     private createSettings(): void {
-        vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/luna.json": true, "**/.vscode": true}, vscode.ConfigurationTarget.Workspace);
+        vscode.workspace.getConfiguration('files').update('exclude', {"**/*.dll": true, "**/res": true, "**/luna.exe": true, "**/luna.json": true, "**/.vscode": true, "luna": true}, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('isLunaProject', true, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('luna').update('autoHideOutput', true, vscode.ConfigurationTarget.Workspace);
         vscode.workspace.getConfiguration('window').update('title', "${dirty}${activeEditorMedium}${separator}${rootName} - Luna Editor", vscode.ConfigurationTarget.Workspace);
@@ -133,7 +133,7 @@ export default class LunaProject {
         let luna_force_update   = vscode.commands.registerCommand('luna.forceupdate', () => LunaManager.checkForUpdates(this.path, this.printfn, true));
         let luna_open_wiki      = vscode.commands.registerCommand('luna.open.wiki',   () => vscode.commands.executeCommand('vscode.open', vscode.Uri.parse("https://github.com/XyronLabs/Luna/wiki")));
         let luna_open_output    = vscode.commands.registerCommand('luna.open.output', () => Logger.show());
-        let luna_download_demo = vscode.commands.registerCommand('luna.download_demo', () => this.downloadDemo());
+        let luna_download_demo  = vscode.commands.registerCommand('luna.download_demo', () => this.downloadDemo());
 
         context.subscriptions.push(luna_run_current);
         context.subscriptions.push(luna_run_main);
@@ -142,5 +142,6 @@ export default class LunaProject {
         context.subscriptions.push(luna_force_update);
         context.subscriptions.push(luna_open_wiki);
         context.subscriptions.push(luna_open_output);
+        context.subscriptions.push(luna_download_demo);
     }
 }
