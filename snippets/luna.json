@@ -6,9 +6,12 @@
 				"\tsize(${1:width}, ${2:height}, \"${3:App name}\")",
 			"end",
 			"",
-			"function render()",
+			"function render(frameTime)",
 				"\tclear()",
 				"\n\t$0",
+			"end",
+			"",
+			"function input(ev)",
 			"end"
 		],
 		"description": "Luna template for a new sketch"
@@ -49,7 +52,7 @@
 		],
 		"description": "Set current drawing color"
 	},
-	
+
 	"NEW_RECTANGLE": {
 		"prefix": "newrectangle",
 		"body":[
@@ -117,5 +120,5 @@
 		],
 		"description": "Luna class"
 	}
-	
+
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.6.6
+- Improve snippets
+
 ## 1.6.5
 - Rename original main.luna instead of deleting it
 

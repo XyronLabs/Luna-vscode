@@ -27,5 +27,5 @@
 
 ## Release Notes
 
-### 1.6.5
-- Rename original main.luna instead of deleting it
+### 1.6.6
+- Improve snippets
