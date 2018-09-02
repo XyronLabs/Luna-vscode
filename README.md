@@ -27,5 +27,5 @@
 
 ## Release Notes
 
-### 1.6.6
-- Improve snippets
+### 1.6.7
+- Fix error when creating main.luna

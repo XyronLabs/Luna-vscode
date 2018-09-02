@@ -61,7 +61,7 @@ export default class LunaProject {
         this.createSettings();
 
         // Create main.lua and open it
-        fs.appendFile(vscode.workspace.rootPath + '/main.luna','', error => vscode.window.showErrorMessage("Error creating main.luna: " + error));
+        fs.writeFileSync(vscode.workspace.rootPath + '/main.luna','');
         vscode.workspace.openTextDocument(vscode.workspace.rootPath + '/main.luna').then(doc => {
             vscode.window.showTextDocument(doc);
         });
